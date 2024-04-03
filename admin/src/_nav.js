@@ -1,18 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import {
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
-  cilDescription,
-  cilDrop,
-  cilNotes,
-  cilPencil,
-  cilPuzzle,
-  cilSpeedometer,
-  cilStar,
-} from '@coreui/icons'
+import { cilBell, cilCalculator, cilChartPie, cilCursor, cilDescription, cilDrop, cilNotes, cilPencil, cilPuzzle, cilSpeedometer, cilStar, cilPeople } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -27,8 +15,58 @@ const _nav = [
     },
   },
   {
-    component: CNavTitle,
-    name: 'Theme',
+    component: CNavGroup,
+    name: 'Users',
+    to: '/users',
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Users List',
+        to: '/users/list',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Products',
+    to: '/products',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Product List',
+        to: '/products/list',
+      },
+      {
+        component: CNavItem,
+        name: 'Add Product',
+        to: '/products/add',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Orders',
+    to: '/orders',
+    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'New Orders',
+        to: '/orders/new',
+      },
+      {
+        component: CNavItem,
+        name: 'Processing Orders',
+        to: '/orders/processing',
+      },
+      {
+        component: CNavItem,
+        name: 'Delivered Orders',
+        to: '/orders/delivered',
+      },
+    ],
   },
   {
     component: CNavItem,
