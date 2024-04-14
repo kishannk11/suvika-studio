@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "functions": {
+    "/blog/[slug]": {},
+    "/blog/full-width": {},
+    "/blog": {},
+    "/": {},
+    "/product/[slug]": {},
+    "/product/category/[slug]": {},
+    "/product/tag/[slug]": {},
+    "/skin/baby-shop": {},
+    "/skin/bicycle-shop": {},
+    "/skin/bike-shop": {},
+    "/skin/car-shop": {},
+    "/skin/coffee-shop": {},
+    "/skin/cookware-shop": {},
+    "/skin/lingerie-shop": {},
+    "/skin/medical-shop": {},
+    "/skin/t-shirt-shop": {},
+    "/skin/tools-shop": {}
+  }
+}
