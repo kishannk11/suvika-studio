@@ -74,7 +74,7 @@ const ProductAdd = () => {
 				'Product added successfully!',
 				'success'
 			);
-			console.log(result);
+			//console.log(result);
 		} catch (error) {
 			console.error('Error:', error);
 			Swal.fire({
