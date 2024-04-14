@@ -41,4 +41,15 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	}
 });
 
+router.get('/list', async (req, res) => {
+	try {
+		console.log("Fetching all products");
+		const products = await Product.find({});
+		res.json(products);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 module.exports = router;
