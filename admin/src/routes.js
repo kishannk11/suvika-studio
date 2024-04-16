@@ -108,9 +108,9 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/products/products-add', name: 'Products', element: ProductAdd },
-  { path: '/products/list', name: 'Product List', element: ProductList },
-  { path: '/categories/main-add', name: 'Main Category', element: MainAddCategory },
-  { path: '/categories/main-list', name: 'Main Category List', element: MainCategoryList },
+  { path: '/products/products-list', name: 'Products', element: ProductList },
+  { path: '/categories/main-add', name: 'Main Categories', element: MainAddCategory },
+  { path: '/categories/main-list', name: 'Main Categories', element: MainCategoryList },
 ]
 
 export default routes
