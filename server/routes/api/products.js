@@ -41,13 +41,30 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	}
 });
 
-router.get('/list', async (req, res) => {
+router.get('/list', auth, async (req, res) => {
 	try {
-		console.log("Fetching all products");
 		const products = await Product.find({});
 		res.json(products);
 	} catch (err) {
 		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+router.delete('/:id', auth, async (req, res) => {
+	try {
+		const product = await Product.findById(req.params.id);
+		if (!product) {
+			return res.status(404).json({ msg: 'Product not found' });
+		}
+
+		await Product.deleteOne({ _id: req.params.id });
+		res.json({ msg: 'Product removed' });
+	} catch (err) {
+		console.error(err.message);
+		if (err.kind == 'ObjectId') {
+			return res.status(404).json({ msg: 'Product not found' });
+		}
 		res.status(500).send('Server Error');
 	}
 });
