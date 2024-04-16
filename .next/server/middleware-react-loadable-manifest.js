@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST='{"..\\\\components\\\\countdown\\\\index.js -> ./countdown-clock":{"id":87825,"files":["static/chunks/7825.98c23bbda3b23437.js"]},"..\\\\components\\\\product\\\\elements\\\\ProductAction.js -> @components/ui/tooltip":{"id":49993,"files":[]}}';
+self.__REACT_LOADABLE_MANIFEST="{}"
