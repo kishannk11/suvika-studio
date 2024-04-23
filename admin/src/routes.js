@@ -55,6 +55,11 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const ProductAdd = React.lazy(() => import('./views/products/Product Add/ProductAdd'));
 const ProductList = React.lazy(() => import('./views/products/ProductList/ProductList'));
 
+const MainAddCategory = React.lazy(() => import('./views/categories/main/MainAddCategory'));
+const MainCategoryList = React.lazy(() => import('./views/categories/main/MainCategoryList'));
+
+//const SubAddCategory = React.lazy(() => import('./views/categories/sub/SubAddCategory'));
+
 
 
 const routes = [
@@ -103,7 +108,9 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/products/products-add', name: 'Products', element: ProductAdd },
-  { path: '/products/list', name: 'Product List', element: ProductList },
+  { path: '/products/products-list', name: 'Products', element: ProductList },
+  { path: '/categories/main-add', name: 'Main Categories', element: MainAddCategory },
+  { path: '/categories/main-list', name: 'Main Categories', element: MainCategoryList },
 ]
 
 export default routes
