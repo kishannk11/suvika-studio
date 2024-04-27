@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader, CForm, CFormLabel, CFormInput, CButton } from '@coreui/react';
 import Swal from 'sweetalert2';
 import { API_URL } from '../../../config';
+import { checkSession } from '../../../utils/session';
 import axios from 'axios';
 
 
 const MainAddCategory = () => {
 	const [categoryName, setCategoryName] = useState('');
-
+	useEffect(() => {
+		checkSession();
+	}, []);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!categoryName.trim()) {
@@ -37,7 +40,6 @@ const MainAddCategory = () => {
 			);
 			console.log(result);
 		} catch (error) {
-			// Axios wraps the error response in `error.response`
 			console.error('Error:', error);
 			Swal.fire({
 				icon: 'error',

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton } from '@coreui/react'
 import Swal from 'sweetalert2'
 import { API_URL } from '../../../config';
+import { checkSession } from '../../../utils/session';
 
 const ProductAdd = () => {
 	const [productName, setProductName] = useState('')
@@ -11,6 +12,10 @@ const ProductAdd = () => {
 	const [productDiscount, setProductDiscount] = useState('')
 	const [productTaxRate, setProductTaxRate] = useState('')
 	const [productImages, setProductImages] = useState([])
+
+	useEffect(() => {
+		checkSession();
+	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
