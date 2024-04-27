@@ -3,12 +3,15 @@ import { CCard, CCardBody, CCardHeader } from '@coreui/react';
 import { Link } from 'react-router-dom';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import Swal from 'sweetalert2';
-
+import { checkSession } from '../../../utils/session';
 import { API_URL } from '../../../config';
 
 const ProductList = () => {
 	const [products, setProducts] = useState([]);
 
+	useEffect(() => {
+		checkSession();
+	}, []);
 	useEffect(() => {
 		const fetchProducts = async () => {
 			const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
