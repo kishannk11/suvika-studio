@@ -2,7 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/home/three": "pages/home/three.js",
-  "/home/two": "pages/home/two.js"
+  "/contact": "pages/contact.js",
+  "/product/category/[slug]": "pages/product/category/[slug].js",
+  "/compare": "pages/compare.js",
+  "/portfolio": "pages/portfolio.js",
+  "/account/register": "pages/account/register.js"
 }
