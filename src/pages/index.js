@@ -23,7 +23,7 @@ const Home = ({blogs}) => {
     return (
         <Fragment>
             <Head>
-                <title>Wokiee - React Next JS Multipurpose eCommerce Template</title>
+                <title>Suvika - Saree Shop</title>
             </Head>
 
             <Header
