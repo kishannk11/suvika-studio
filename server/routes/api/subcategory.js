@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const MainCategory = require('../../models/MainCategory');
+const SubCategory = require('../../models/SubCategory');
 const { check, validationResult } = require('express-validator');
-// POST request to add a new category
+// POST request to add a new subcategory
 router.post('/add', [
 	auth,
 	check('categoryName').not().isEmpty().withMessage('Category name is required'),
@@ -13,27 +13,30 @@ router.post('/add', [
 	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() });
 	}
-
 	try {
 		const { categoryName, mainCategoryId } = req.body;
 		const newSubCategory = new SubCategory({ categoryName, mainCategoryId });
 		const savedSubCategory = await newSubCategory.save();
 		res.status(201).json(savedSubCategory);
 	} catch (error) {
-		res.status(400).json({ message: error.message });
+		console.error(error); // Log the error for server-side inspection
+		res.status(500).json({ message: 'An error occurred while adding the subcategory' });
 	}
 });
 
+// GET request to list all subcategories
 router.get('/list', auth, async (req, res) => {
 	try {
-		const categories = await MainCategory.find();
-		res.json(categories);
-	} catch (error) {
+		const subcategories = await SubCategory.find().populate('mainCategoryId');
+		res.json(subcategories);
+	}
+	catch (error) {
 		console.error(error); // Log the error for server-side inspection
-		res.status(500).json({ message: 'An error occurred while fetching the categories' });
+		res.status(500).json({ message: 'An error occurred while adding the subcategory' });
 	}
 });
 
+// DELETE request to delete a subcategory
 router.delete('/delete/:id', [
 	auth,
 	check('id', 'Invalid ID').isMongoId()
@@ -42,14 +45,17 @@ router.delete('/delete/:id', [
 	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() });
 	}
+
 	try {
-		await MainCategory.findByIdAndDelete(req.params.id);
-		res.status(204).json({ message: 'Category deleted successfully' });
+		await SubCategory.findByIdAndDelete(req.params.id);
+		res.status(204).json({ message: 'Subcategory deleted successfully' });
 	} catch (error) {
-		console.error(error); // Log the error for server-side inspection
-		res.status(500).json({ message: 'An error occurred while deleting the category' });
+		console.error(error);
+		res.status(500).json({ message: 'An error occurred while deleting the subcategory' });
 	}
 });
+
+// PUT request to update a subcategory
 router.put('/update/:id', [
 	auth,
 	check('id', 'Invalid ID').isMongoId()
@@ -59,18 +65,20 @@ router.put('/update/:id', [
 		return res.status(400).json({ errors: errors.array() });
 	}
 	try {
-		const { categoryName } = req.body;
-		const updatedCategory = await MainCategory.findByIdAndUpdate(req.params.id, { categoryName }, { new: true });
-		if (!updatedCategory) {
-			return res.status(404).json({ message: 'Category not found' });
+		const { categoryName, mainCategoryId } = req.body;
+		const updatedSubCategory = await SubCategory.findByIdAndUpdate(
+			req.params.id,
+			{ categoryName, mainCategoryId },
+			{ new: true }
+		);
+		if (!updatedSubCategory) {
+			return res.status(404).json({ message: 'Subcategory not found' });
 		}
-		res.json(updatedCategory);
+		res.json(updatedSubCategory);
 	} catch (error) {
 		console.error(error); // Log the error for server-side inspection
-		res.status(500).json({ message: 'An error occurred while updating the category' });
+		res.status(500).json({ message: 'An error occurred while updating the subcategory' });
 	}
 });
 
-
 module.exports = router;
-
