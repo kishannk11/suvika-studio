@@ -58,7 +58,9 @@ const ProductList = React.lazy(() => import('./views/products/ProductList/Produc
 const MainAddCategory = React.lazy(() => import('./views/categories/main/MainAddCategory'));
 const MainCategoryList = React.lazy(() => import('./views/categories/main/MainCategoryList'));
 
-//const SubAddCategory = React.lazy(() => import('./views/categories/sub/SubAddCategory'));
+const SubAddCategory = React.lazy(() => import('./views/categories/sub/SubAddCategory'));
+const SubCategoryList = React.lazy(() => import('./views/categories/sub/SubCategoryList'));
+
 
 
 
@@ -108,9 +110,11 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/products/products-add', name: 'Products', element: ProductAdd },
-  { path: '/products/products-list', name: 'Products', element: ProductList },
+  { path: '/products/list', name: 'Products', element: ProductList },
   { path: '/categories/main-add', name: 'Main Categories', element: MainAddCategory },
   { path: '/categories/main-list', name: 'Main Categories', element: MainCategoryList },
+  { path: '/categories/sub-add', name: 'Sub Categories', element: SubAddCategory },
+  { path: '/categories/sub-list', name: 'Sub Categories', element: SubCategoryList },
 ]
 
 export default routes
