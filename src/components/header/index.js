@@ -14,16 +14,16 @@ import HeaderThirteen from "@components/header/HeaderThirteen";
 
 export {
     HeaderOne,
-    HeaderTwo,
-    HeaderThree,
-    HeaderFour,
-    HeaderFive,
-    HeaderSix,
-    HeaderSeven,
-    HeaderEight,
-    HeaderNine,
-    HeaderTen,
-    HeaderEleven,
-    HeaderTwelve,
-    HeaderThirteen
+    // HeaderTwo,
+    // HeaderThree,
+    // HeaderFour,
+    // HeaderFive,
+    // HeaderSix,
+    // HeaderSeven,
+    // HeaderEight,
+    // HeaderNine,
+    // HeaderTen,
+    // HeaderEleven,
+    // HeaderTwelve,
+    // HeaderThirteen
 }
