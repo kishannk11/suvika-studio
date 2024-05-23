@@ -10,8 +10,9 @@ const SubCategorySchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MainCategory',
 		required: true
-	}
-});
+	},
+
+}, { timestamps: true });
 
 const SubCategory = mongoose.model('SubCategory', SubCategorySchema);
 
