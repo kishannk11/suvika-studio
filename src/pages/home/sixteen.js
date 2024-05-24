@@ -19,12 +19,12 @@ const HomeSixteen = () => {
     return (
         <Fragment>
             <Head>
-                <title>Home 16 - Wokiee :: React Next JS Multipurpose eCommerce Template</title>
+                <title>Suvika Studio - Saree Shop</title>
             </Head>
 
             <Header
                 logo={logo}
-                dark={false}
+                dark={true}
                 navData={navContent}
                 navbarAlignment="center"
                 showNotificationBar={false}
@@ -44,7 +44,7 @@ const HomeSixteen = () => {
 
             <Footer
                 logo={logo}
-                newsletter={true}
+                newsletter={false}
             />
         </Fragment>
     )
