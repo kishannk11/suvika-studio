@@ -11,7 +11,7 @@ const DesktopHeaderOne = ({className, navbarAlignment, containerFluid, dark, log
                 <Container fluid={containerFluid}>
                     <div className="tt-header-holder">
                         <div className="tt-col-obj tt-obj-logo">
-                            <Logo src={logo} width={95} height={20}/>
+                            <Logo src={logo} width={150} height={40}/>
                         </div>
 
                         <div
@@ -28,7 +28,7 @@ const DesktopHeaderOne = ({className, navbarAlignment, containerFluid, dark, log
                             <HeaderAction
                                 cart={true}
                                 search={true}
-                                account={false}
+                                account={true}
                                 settings={false}
                                 className="obj-move-right"
                             />
