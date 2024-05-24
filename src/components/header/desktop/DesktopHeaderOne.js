@@ -28,8 +28,8 @@ const DesktopHeaderOne = ({className, navbarAlignment, containerFluid, dark, log
                             <HeaderAction
                                 cart={true}
                                 search={true}
-                                account={true}
-                                settings={true}
+                                account={false}
+                                settings={false}
                                 className="obj-move-right"
                             />
                         </div>
