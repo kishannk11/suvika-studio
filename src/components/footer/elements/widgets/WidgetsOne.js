@@ -47,19 +47,21 @@ const WidgetsOne = ({className, dark}) => {
 
                     <Col md={6} lg={2} xl={3}>
                         <Widget title="ABOUT US">
-                            <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor
-                                ut labore et dolore. Lorem ipsum dolor amet conse ctetur
-                                adipisicing elit, sedo eiusmod tempor incididunt ut labore etdolore. </p>
+                            <p>We believe in Quality of Happiness when you unwrap the fabric of your life.</p>
                         </Widget>
                     </Col>
 
                     <Col md={6} lg={2} xl={3}>
                         <Widget title="CONTACT">
                             <address>
-                                <p><span>Address:</span> 2548 Broaddus Maple Court Avenue, Madisonville KY 4783, USA</p>
-                                <p><span>Phone:</span> +777 2345 7885; +777 2345 7886</p>
-                                <p><span>Hours:</span> 7 Days a week from 10 am to 6 pm</p>
-                                <p><span>E-mail:</span> <Link href="mailto:info@mydomain.com">info@mydomain.com</Link>
+                                <p><span>Address:</span> No. 7/A, 1st Floor, 80 feet road, <br/>
+                            Bannerghatta Rd, Muthuraya Swamy Layout, <br/>
+                            Hanuman Nagar, Bilekahalli, <br/>
+                            Bengaluru, Karnataka 560076</p>
+                                <p><span>Phone:</span> +91 78921 51829, 
+                                +91 73377 99891</p>
+                                <p><span>Hours:</span> 7 Days a week from 11 am to 8 pm</p>
+                                <p><span>E-mail:</span> <Link href="mailto:suvikastudio@gmail.com">suvikastudio@gmail.com</Link>
                                 </p>
                             </address>
                         </Widget>
