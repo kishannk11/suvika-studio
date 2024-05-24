@@ -2,25 +2,19 @@
   {
     "id": 1,
     "media": "facebook",
-    "username": "hasthemes",
+    "username": "suvikastudio",
     "iconClass": "icon-g-64"
-  },
-  {
-    "id": 2,
-    "media": "twitter",
-    "username": "hasthemes",
-    "iconClass": "icon-h-58"
   },
   {
     "id": 3,
     "media": "instagram",
-    "username": "hasthemes",
+    "username": "suvikastudio",
     "iconClass": "icon-g-67"
   },
   {
     "id": 4,
     "media": "youtube",
-    "username": "hasthemes",
+    "username": "@suvikastudio",
     "iconClass": "icon-g-76"
   }
 ]

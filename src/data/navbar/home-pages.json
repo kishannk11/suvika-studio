@@ -2,33 +2,140 @@
   {
     "id": 1,
     "text": "HOME",
-    "link": "/home/sixteen",
+    "link": "/",
     "submenu": [
       {
         "id": 1.1,
-        "title": "HOME STYLES",
+        "title": "Shop by Fabrics",
         "lists": [
           {
-            "text": "Home - Example 16",
-            "link": "/home/sixteen",
+            "text": "Tusser",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Organza",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Georgette",
+            "link": "/",
+            "badge": "new"
+          },
+          {
+            "text": "Linen",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Crepe",
+            "link": "/",
             "badge": "popular"
+          },
+          {
+            "text": "Silk",
+            "link": "/",
+            "badge": "popular"
+          },
+          {
+            "text": "Chiffon",
+            "link": "/",
+            "badge": "popular"
+          },
+          {
+            "text": "Modal",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Chanderi",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Jute Silk",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Cotton",
+            "link": "/",
+            "badge": "hot"
+          },
+          {
+            "text": "Tissue",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Kota",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Kathan",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Moonga",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Budget Friendly",
+            "link": "/",
+            "badge": ".."
+
+          },
+          {
+            "text": "Tanchio Banarasi",
+            "link": "/",
+            "badge": ".."
+          },
+          {
+            "text": "Readymade Blouse",
+            "link": "/",
+            "badge": "hot"
+
+          },
+          {
+            "text": "Satin",
+            "link": "/",
+            "badge": ".."
+
+          },
+          {
+            "text": "Butter Silk",
+            "link": "/",
+            "badge": ".."
           }
         ]
       },
       {
         "id": 1.2,
-        "title": "NEW SKINS",
+        "title": "Shob by Occasion",
         "lists": [
           {
-            "text": "Home - Example 16",
-            "link": "/home/sixteen",
+            "text": "Party Wear",
+            "link": "/",
+            "badge": "new"
+          },
+          {
+            "text": "Festive Wear",
+            "link": "/",
             "badge": "popular"
+          },
+          {
+            "text": "Casual Wear",
+            "link": "/",
+            "badge": "new"
           }
         ]
       }
     ],
-    "mega_menu": true,
-    "promo": "/assets/images/no-placeholder/desktop-menu-promo.png"
+    "mega_menu": true
   },
   {
     "id": 6,
