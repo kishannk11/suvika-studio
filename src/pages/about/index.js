@@ -13,7 +13,7 @@ const PageAbout = () => {
     return (
         <Fragment>
             <Head>
-                <title>About :: Wokiee - React Next JS Multipurpose eCommerce Template</title>
+                <title>Suvika Studio - Shop</title>
                 <meta name="description" content="React Next JS Multipurpose eCommerce Template"/>
             </Head>
 
