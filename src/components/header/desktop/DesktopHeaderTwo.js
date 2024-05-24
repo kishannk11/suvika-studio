@@ -17,8 +17,8 @@ const DesktopHeaderTwo = ({logo, navData}) => {
                         <HeaderAction
                             search={true}
                             cart={true}
-                            account={true}
-                            settings={true}
+                            account={false}
+                            settings={false}
                         />
                     </div>
                 </div>

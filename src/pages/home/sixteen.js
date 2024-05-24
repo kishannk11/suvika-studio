@@ -3,7 +3,7 @@ import {Fragment, useContext} from "react";
 import {getProductsBySkin} from "@utils/product";
 import slideData from "@data/slider/home-sixteen.json";
 import {SliderTwo as Slider} from "@components/slider";
-import {HeaderTwo as Header} from "@components/header";
+import {HeaderOne as Header} from "@components/header";
 import {FooterOne as Footer} from "@components/footer";
 import {ProductsContext} from "@global/ProductsContext";
 import {BrandsTwo as BrandsLogo} from "@components/brands";
@@ -20,14 +20,14 @@ const HomeSixteen = () => {
         <Fragment>
             <Head>
                 <title>Suvika Studio - Saree Shop</title>
+                <meta name="description" content="React Next JS Multipurpose eCommerce Template"/>
             </Head>
 
             <Header
                 logo={logo}
-                dark={true}
+                navbar={true}
                 navData={navContent}
-                navbarAlignment="center"
-                showNotificationBar={false}
+                navbarAlignment="left"
             />
 
             <ContentWrapper>
