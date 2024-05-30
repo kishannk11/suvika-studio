@@ -10,8 +10,8 @@ const ContactMethod = ({className}) => {
                             <i className="tt-icon icon-f-93"/>
                             <h6 className="tt-title">LET’S HAVE A CHAT!</h6>
                             <address>
-                                +777 2345 7885:<br/>
-                                +777 2345 7886
+                                +91 78921 51829<br/>
+                                +91 73377 99891
                             </address>
                         </div>
                     </Col>
@@ -21,9 +21,10 @@ const ContactMethod = ({className}) => {
                             <i className="tt-icon icon-f-24"/>
                             <h6 className="tt-title">VISIT OUR LOCATION</h6>
                             <address>
-                                2548 Broaddus Maple Court Avenue,<br/>
-                                Madisonville KY 4783,<br/>
-                                United States of America
+                            No. 7/A, 1st Floor, 80 feet road, <br/>
+                            Bannerghatta Rd, Muthuraya Swamy Layout, <br/>
+                            Hanuman Nagar, Bilekahalli, <br/>
+                            Bengaluru, Karnataka 560076
                             </address>
                         </div>
                     </Col>
@@ -34,7 +35,7 @@ const ContactMethod = ({className}) => {
                             <h6 className="tt-title">WORK TIME</h6>
                             <address>
                                 7 Days a week<br/>
-                                from 10 AM to 6 PM
+                                from 11:00 AM to 8:00 PM
                             </address>
                         </div>
                     </Col>
