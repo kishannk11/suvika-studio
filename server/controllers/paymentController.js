@@ -19,3 +19,35 @@ exports.createOrder = async (amount) => {
 		throw new Error('Failed to create payment order');
 	}
 };
+
+exports.createPaymentLink = async (amount, customerDetails) => {
+	const options = {
+		amount: amount * 100, // Convert to the smallest currency unit
+		currency: "INR",
+		accept_partial: false,
+		description: "Payment for order",
+		customer: {
+			name: customerDetails.name,
+			contact: customerDetails.contact,
+			email: customerDetails.email
+		},
+		notify: {
+			sms: true,
+			email: true
+		},
+		reminder_enable: true,
+		notes: {
+			additionalInfo: "Any additional information"
+		},
+		callback_url: "http://localhost:5000/api/payment/callback",
+		callback_method: "get"
+	};
+
+	try {
+		const paymentLink = await razorpayInstance.paymentLink.create(options);
+		return paymentLink;
+	} catch (error) {
+		console.error(error);
+		throw new Error('Failed to create payment link');
+	}
+};
