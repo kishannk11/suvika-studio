@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
 
 		// Example authorization check
 		if (req.user.role !== 'admin') {
-			return res.status(403).json({ msg: 'Access denied' });
+			return res.status(403).json({ msg: 'Access denied for admin' });
 		}
 
 		next();

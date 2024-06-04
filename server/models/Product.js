@@ -26,9 +26,10 @@ const ProductSchema = new mongoose.Schema({
 		required: true,
 	},
 	productImages: [{
-		type: String, // Assuming images are stored as URLs
+		type: String,
 		required: true,
 	}],
-});
+
+}, { timestamps: true });
 
 module.exports = mongoose.model('Product', ProductSchema);
