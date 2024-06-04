@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader } from '@coreui/react';
 import { Link } from 'react-router-dom';
 import { MdEdit, MdDelete } from 'react-icons/md';
+import Swal from 'sweetalert2';
+import { checkSession } from '../../../utils/session';
 import { API_URL } from '../../../config';
 
 const ProductList = () => {
 	const [products, setProducts] = useState([]);
 
+	useEffect(() => {
+		checkSession();
+	}, []);
 	useEffect(() => {
 		const fetchProducts = async () => {
 			const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
@@ -25,25 +30,50 @@ const ProductList = () => {
 	}, []);
 
 	const deleteProduct = async (productId) => {
-		const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
-		try {
-			const response = await fetch(`${API_URL}/api/products/${productId}`, {
-				method: 'DELETE',
-				headers: {
-					'Authorization': `Bearer ${token}`,
-				},
-			});
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+				try {
+					const response = await fetch(`${API_URL}/api/products/${productId}`, {
+						method: 'DELETE',
+						headers: {
+							'Authorization': `Bearer ${token}`,
+						},
+					});
 
-			if (response.ok) {
-				// Remove the deleted product from the state
-				setProducts(products.filter(product => product._id !== productId));
-			} else {
-				// Handle any errors, such as displaying a message to the user
-				console.error('Failed to delete the product.');
+					if (response.ok) {
+						// Remove the deleted product from the state
+						setProducts(products.filter(product => product._id !== productId));
+						Swal.fire(
+							'Deleted!',
+							'Your product has been deleted.',
+							'success'
+						);
+					} else {
+						// Handle any errors, such as displaying a message to the user
+						Swal.fire(
+							'Failed!',
+							'Failed to delete the product.',
+							'error'
+						);
+					}
+				} catch (error) {
+					Swal.fire(
+						'Error!',
+						`Error: ${error.message}`,
+						'error'
+					);
+				}
 			}
-		} catch (error) {
-			console.error('Error:', error);
-		}
+		});
 	};
 
 	return (

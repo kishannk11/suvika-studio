@@ -37,9 +37,9 @@ const StickyHeader = ({hoverStyleClass, mobileNavbarHandler, containerFluid, nav
                         hamburger={true}
                         search={true}
                         cart={true}
-                        account={true}
-                        settings={true}
-                        mobileNavbarHandler={mobileNavbarHandler}
+                        account={false}
+                        settings={false}
+                        // mobileNavbarHandler={mobileNavbarHandler}
                     />
                 </div>
             </Container>

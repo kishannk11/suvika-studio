@@ -1,85 +1,53 @@
 import Head from "next/head";
-import {getBlogPosts} from "@utils/blog";
-import LatestBlog from "@components/blog";
 import {Fragment, useContext} from "react";
 import {getProductsBySkin} from "@utils/product";
-import sliderData from "@data/slider/home-one.json";
+import slideData from "@data/slider/home-sixteen.json";
+import {SliderTwo as Slider} from "@components/slider";
 import {HeaderOne as Header} from "@components/header";
-import {SliderOne as Slider} from "@components/slider";
 import {FooterOne as Footer} from "@components/footer";
 import {ProductsContext} from "@global/ProductsContext";
+import {BrandsTwo as BrandsLogo} from "@components/brands";
 import {HomePagesNavData as navContent} from "@data/navbar";
-import {ServicesOne as Services} from "@components/services";
-import {CategoriesOne as Categories} from "@components/categories";
+import {HomeSixProductsTab as Products} from "@components/products";
 import {ContentWrapperOne as ContentWrapper} from "@components/wrapper";
-import {PromoBannerOne as PromoBanners} from "@components/promo-banners";
-import {BestSelling, TendingProducts as Tending} from "@components/products";
 
-const Home = ({blogs}) => {
+const HomeSixteen = () => {
     const {products} = useContext(ProductsContext);
-    const productsFashion = getProductsBySkin(products, "fashion");
+    const productsFashion = getProductsBySkin(products, 'fashion');
     const logo = "/assets/images/no-placeholder/logo.png";
 
     return (
         <Fragment>
             <Head>
-                <title>Wokiee - React Next JS Multipurpose eCommerce Template</title>
+                <title>ABCD</title>
+                <meta name="description" content="React Next JS Multipurpose eCommerce Template"/>
             </Head>
 
             <Header
                 logo={logo}
                 navbar={true}
-                dark={false}
                 navData={navContent}
                 navbarAlignment="left"
             />
 
             <ContentWrapper>
                 <Slider
-                    dots={true}
-                    arrows={true}
-                    data={sliderData}
-                    className="nomargin"
+                    className="tt-offset-small"
+                    sliderWrapper="slider-style-2"
+                    data={slideData}
                 />
-                <Categories/>
-                <Tending
+                <Products
                     products={productsFashion}
                 />
-                <PromoBanners/>
-                <BestSelling
-                    products={productsFashion}
-                />
-                <LatestBlog
-                    blogs={blogs}
-                />
-                <Services/>
+                <BrandsLogo/>
             </ContentWrapper>
 
             <Footer
                 logo={logo}
-                dark={false}
                 newsletter={true}
             />
         </Fragment>
     )
 }
 
-export async function getStaticProps() {
-    const blogs = getBlogPosts([
-        'title',
-        'excerpt',
-        'date',
-        'author',
-        'thumb',
-        'slug',
-        'categories'
-    ], 3);
-
-    return {
-        props: {
-            blogs: blogs
-        }
-    }
-}
-
-export default Home;
+export default HomeSixteen;
