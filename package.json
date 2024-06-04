@@ -10,7 +10,10 @@
     "deploy": "next build && next export"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
     "axios": "^1.7.2",
+>>>>>>> a0d37472d8fb3c335e48951abe0c68b35d554076
     "bootstrap": "^5.2.0",
     "cogo-toast": "https://github.com/hasanm95/cogo-toast",
     "dateformat": "^5.0.3",
@@ -28,7 +31,10 @@
     "react-parallax-scroll": "^0.1.1",
     "react-slick": "^0.29.0",
     "react-tippy": "^1.4.0",
+<<<<<<< HEAD
+=======
     "react-toastify": "^10.0.5",
+>>>>>>> a0d37472d8fb3c335e48951abe0c68b35d554076
     "remark": "^14.0.2",
     "remark-html": "^15.0.1",
     "uuid": "^8.3.2",
@@ -36,7 +42,11 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
+<<<<<<< HEAD
+    "sass": "^1.29.0",
+=======
     "sass": "^1.77.4",
+>>>>>>> a0d37472d8fb3c335e48951abe0c68b35d554076
     "slick-carousel": "^1.8.1"
   }
 }

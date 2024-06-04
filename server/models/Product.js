@@ -26,10 +26,17 @@ const ProductSchema = new mongoose.Schema({
 		required: true,
 	},
 	productImages: [{
+<<<<<<< HEAD
+		type: String, // Assuming images are stored as URLs
+		required: true,
+	}],
+});
+=======
 		type: String,
 		required: true,
 	}],
 
 }, { timestamps: true });
+>>>>>>> a0d37472d8fb3c335e48951abe0c68b35d554076
 
 module.exports = mongoose.model('Product', ProductSchema);
