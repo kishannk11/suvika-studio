@@ -1,4 +1,5 @@
-node_modules
-.next
+node_moduless
 .vscode
 .trace
+.next/
+node_modules
