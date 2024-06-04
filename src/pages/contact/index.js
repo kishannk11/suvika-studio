@@ -15,7 +15,7 @@ const PageContact = () => {
     return (
         <Fragment>
             <Head>
-                <title>Contact :: Wokiee - React Next JS Multipurpose eCommerce Template</title>
+                <title>ABCS</title>
                 <meta name="description" content="React Next JS Multipurpose eCommerce Template"/>
             </Head>
 
@@ -31,8 +31,9 @@ const PageContact = () => {
                 <div className="content-indent">
                     <Container>
                         <GoogleMap
-                            latitude={37.338832}
-                            longitude={-87.5069334}
+                            latitude={12.880752505795263}
+                            longitude={77.60988053772596}
+
                         />
 
                         <ContactMethod
