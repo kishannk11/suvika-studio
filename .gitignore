@@ -3,3 +3,5 @@ node_moduless
 .trace
 .next/
 node_modules
+.next/trace
+
