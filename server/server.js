@@ -8,6 +8,8 @@ const maincategory = require('./routes/maincategory');
 const subcategory = require('./routes/subcategory');
 const signup = require('./routes/signup');
 const { userLogin } = require('./auth/userLogin');
+const cart = require('./routes/cart');
+const checkout = require('./routes/checkout');
 
 const app = express();
 const port = 5000;
@@ -30,6 +32,8 @@ app.use('/api/maincategory', maincategory);
 app.use('/api/subcategory', subcategory);
 app.use('/api/signup', signup);
 app.use('/api/userLogin', userLogin);
+app.use('/api/cart', cart);
+app.use('/api/checkout', checkout);
 
 
 app.listen(port, () => {
