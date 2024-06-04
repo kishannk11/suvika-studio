@@ -5,6 +5,7 @@ const adminAuth = require('../middleware/auth');
 const Checkout = require('../models/Checkout');
 const Cart = require('../models/Cart'); // Ensure Cart model is imported
 const Product = require('../models/Product'); // Ensure Product model is imported
+const User = require('../models/User'); // Ensure User model is imported
 const paymentController = require('../controllers/paymentController');
 const { body, validationResult } = require('express-validator');
 
@@ -30,21 +31,30 @@ router.post('/create', [
 		}
 
 		let totalAmount = 0;
-		let checkoutItems = []; // Array to hold transformed items for checkout
+		let checkoutItems = [];
 
 		for (const item of cart.items) {
 			const product = await Product.findById(item.productId);
+			console.log(product);
 			if (product) {
 				totalAmount += product.productPrice * item.quantity;
 				checkoutItems.push({
-					product: item.productId, // Use productId here to match the Checkout schema's product field
+					product: item.productId,
 					quantity: item.quantity
 				});
 			}
 		}
 
-		// Create payment order using Razorpay
-		const paymentOrder = await paymentController.createOrder(totalAmount);
+		// Fetch user details from User table
+		const user = await User.findById(req.user.id).select('name lastName email');
+
+		// Create payment link using Razorpay
+		const customerDetails = {
+			name: user.name + ' ' + user.lastName, // Concatenate name and lastName
+			contact: "8105897579", // Placeholder for actual customer contact
+			email: user.email // Use email from User table
+		};
+		const paymentLink = await paymentController.createPaymentLink(totalAmount, customerDetails);
 
 		const newCheckout = new Checkout({
 			user: req.user.id,
@@ -55,30 +65,23 @@ router.post('/create', [
 			zipCode,
 			country,
 			totalAmount,
-			items: checkoutItems, // Use the transformed items array
-			razorpayOrderId: paymentOrder.id // Store Razorpay order ID
+			items: checkoutItems,
+			razorpayOrderId: paymentLink.id // Store Razorpay payment link ID
 		});
 
 		const checkout = await newCheckout.save();
-		res.json({ paymentUrl: paymentOrder.paymentUrl });
+		res.json({ paymentUrl: paymentLink.short_url }); // Send the short URL to the frontend
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
 	}
 });
 
-module.exports = router;
-
 // List all checkouts for admin, specific user checkouts for user
 router.get('/', auth, async (req, res) => {
 	try {
-		if (req.user.role === 'admin') {
-			const checkouts = await Checkout.find().populate('user', ['name']);
-			res.json(checkouts);
-		} else {
-			const checkouts = await Checkout.find({ user: req.user.id });
-			res.json(checkouts);
-		}
+		const checkouts = await Checkout.find({ user: req.user.id }).populate('user', ['name']);
+		res.json(checkouts);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
