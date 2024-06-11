@@ -3,6 +3,7 @@
 .trace
 .next/
 .next/trace
+admin/build/
 admin/node_modules
 server/node_modules
   
