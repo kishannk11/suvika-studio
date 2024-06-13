@@ -61,6 +61,25 @@ router.get('/list-guest', async (req, res) => {
 	}
 });
 
+router.get('/search', auth, async (req, res) => {
+	try {
+		const query = req.query.query;
+		if (!query || query.length < 2) {
+			return res.status(400).json({ msg: 'Query must be at least 2 characters long' });
+		}
+
+		const products = await Product.find({
+			productName: { $regex: query, $options: 'i' }
+		});
+
+		res.json(products);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+
 router.delete('/:id', auth, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);

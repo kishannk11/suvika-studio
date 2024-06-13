@@ -1,4 +1,3 @@
-const API_URL = 'https://api.suvikastudio.com';
-
+const API_URL = 'http://localhost:5000';
 export { API_URL };
 

@@ -9,6 +9,7 @@ const products = require('./routes/products');
 const maincategory = require('./routes/maincategory');
 const subcategory = require('./routes/subcategory');
 const signup = require('./routes/signup');
+const order = require('./routes/orderRoutes');
 const { userLogin } = require('./auth/userLogin');
 const cart = require('./routes/cart');
 const checkout = require('./routes/checkout');
@@ -49,6 +50,7 @@ if (cluster.isMaster) {
 	app.use('/api/subcategory', subcategory);
 	app.use('/api/signup', signup);
 	app.use('/api/userLogin', userLogin);
+	app.use('/api/orders', order);
 	app.use('/api/cart', cart);
 	app.use('/api/checkout', checkout);
 
