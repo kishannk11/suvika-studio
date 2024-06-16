@@ -15,6 +15,6 @@ exports.generateToken = (user) => {
 };
 
 exports.generateTokenforStudent = (userData) => {
-	return jwt.sign(userData, JWT_SECRET, { expiresIn: '1h' });  // Token expires in 1 hour
+	return jwt.sign(userData, JWT_SECRET, { expiresIn: '10h' });  // Token expires in 1 hour
 };
 

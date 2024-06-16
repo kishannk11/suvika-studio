@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilCalculator, cilChartPie, cilCursor, cilDescription, cilDrop, cilNotes, cilPencil, cilPuzzle, cilSpeedometer, cilStar, cilPeople, cilList } from '@coreui/icons'
+import { cilBell, cilCalculator, cilChartPie, cilCursor, cilDescription, cilDrop, cilNotes, cilPencil, cilPuzzle, cilPlus, cilSpeedometer, cilStar, cilPeople, cilList, cilCart } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -9,10 +9,7 @@ const _nav = [
 		name: 'Dashboard',
 		to: '/dashboard',
 		icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-		badge: {
-			color: 'info',
-			text: 'NEW',
-		},
+
 	},
 	{
 		component: CNavGroup,
@@ -49,12 +46,17 @@ const _nav = [
 		component: CNavGroup,
 		name: 'Orders',
 		to: '/orders',
-		icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+		icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
 		items: [
 			{
 				component: CNavItem,
+				name: 'Create Order',
+				to: '/orders/create/new',
+			},
+			{
+				component: CNavItem,
 				name: 'New Orders',
-				to: '/orders/new',
+				to: '/orders/create/list',
 			},
 			{
 				component: CNavItem,
@@ -105,6 +107,42 @@ const _nav = [
 						to: '/categories/sub-list',
 					},
 				],
+			},
+		],
+	},
+	/* 	{
+			component: CNavGroup,
+			name: 'Create Orders',
+			to: '/orders/create',
+			icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+			items: [
+				{
+					component: CNavItem,
+					name: 'New Order',
+					to: '/orders/create/new',
+				},
+				{
+					component: CNavItem,
+					name: 'List Orders',
+					to: '/orders/create/list',
+				},
+			],
+		}, */
+	{
+		component: CNavGroup,
+		name: 'Coupons',
+		to: '/coupons',
+		icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+		items: [
+			{
+				component: CNavItem,
+				name: 'Add Coupon',
+				to: '/coupons/create',
+			},
+			{
+				component: CNavItem,
+				name: 'List Coupons',
+				to: '/coupons/list',
 			},
 		],
 	},

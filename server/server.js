@@ -9,9 +9,11 @@ const products = require('./routes/products');
 const maincategory = require('./routes/maincategory');
 const subcategory = require('./routes/subcategory');
 const signup = require('./routes/signup');
+const order = require('./routes/orderRoutes');
 const { userLogin } = require('./auth/userLogin');
 const cart = require('./routes/cart');
 const checkout = require('./routes/checkout');
+const coupon = require('./routes/couponRoutes');
 
 if (cluster.isMaster) {
 	const numCPUs = os.cpus().length;
@@ -32,7 +34,7 @@ if (cluster.isMaster) {
 	const port = 5000;
 
 	app.use(cors({
-		origin: ['http://localhost:3000', 'https://admin.suvikastudio.com'],
+		origin: ['http://localhost:3000', 'https://admin.suvikastudio.com', 'https://suvikaadmin.duckdns.org'],
 	}));
 	app.use(helmet());
 	connectDB();
@@ -49,8 +51,10 @@ if (cluster.isMaster) {
 	app.use('/api/subcategory', subcategory);
 	app.use('/api/signup', signup);
 	app.use('/api/userLogin', userLogin);
+	app.use('/api/orders', order);
 	app.use('/api/cart', cart);
 	app.use('/api/checkout', checkout);
+	app.use('/api/coupons', coupon);
 
 	app.listen(port, () => {
 		console.log(`Worker ${process.pid} started, Server is running on http://localhost:${port}`);

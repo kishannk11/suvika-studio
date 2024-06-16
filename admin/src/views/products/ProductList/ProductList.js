@@ -88,6 +88,8 @@ const ProductList = () => {
 							<th>Image</th>
 							<th>Name</th>
 							<th>Description</th>
+							<th>Main Category</th>
+							<th>Sub Category</th>
 							<th>Price</th>
 							<th>Stock</th>
 							<th>Discount</th>
@@ -103,6 +105,8 @@ const ProductList = () => {
 								</td>
 								<td>{product.productName}</td>
 								<td>{product.productDescription}</td>
+								<td>{product.mainCategoryId ? product.mainCategoryId.categoryName : 'N/A'}</td>
+								<td>{product.subCategoryId ? product.subCategoryId.categoryName : 'N/A'}</td>
 								<td>{product.productPrice}</td>
 								<td>{product.productQuantity}</td>
 								<td>{product.productDiscount}%</td>

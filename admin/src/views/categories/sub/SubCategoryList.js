@@ -24,8 +24,7 @@ const SubCategoryList = () => {
 				},
 			});
 			if (response.data) {
-				console.log(response.data);
-				setSubCategories(response.data);
+				setSubCategories(response.data.data);
 			}
 		} catch (error) {
 			console.error('Failed to fetch subcategories:', error);
