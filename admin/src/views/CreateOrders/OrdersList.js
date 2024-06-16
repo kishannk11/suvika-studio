@@ -5,9 +5,10 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import { checkSession, handleNon200Response } from '../../utils/session';
 import { API_URL } from '../../config';
+import axios from 'axios';
 
 const OrdersList = () => {
-	const [products, setProducts] = useState([]);
+	const [orders, setOrders] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -16,19 +17,19 @@ const OrdersList = () => {
 	}, []);
 
 
-	const fetchProducts = async () => {
+	const fetchOrders = async () => {
 		setLoading(true);
 		setError(null);
-		const token = localStorage.getItem('token'); // Retrieve the token from local storage
+		const token = localStorage.getItem('token');
 
 		try {
-			const response = await axios.get(`${API_URL}/api/products/list`, {
+			const response = await axios.get(`${API_URL}/api/orders/list`, {
 				headers: {
-					Authorization: `Bearer ${token}` // Include the token in the Authorization header
+					Authorization: `Bearer ${token}`
 				}
 			});
 			if (response.status === 200) {
-				setProducts(response.data.data);
+				setOrders(response.data.data);
 			} else {
 				handleNon200Response(response);
 			}
@@ -49,45 +50,37 @@ const OrdersList = () => {
 
 
 	useEffect(() => {
-		fetchProducts();
+		fetchOrders();
 	}, []);
 
 	return (
 		<CCard>
 			<CCardHeader>
-				Product List
+				Order List
 			</CCardHeader>
 			<CCardBody>
 				<table className="table table-hover table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Image</th>
+							<th>Order ID</th>
 							<th>Name</th>
-							<th>Description</th>
-							<th>Price</th>
-							<th>Stock</th>
-							<th>Discount</th>
-							<th>Tax Rate</th>
+							<th>Phone</th>
+							<th>Email</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						{products.map((product, index) => (
+						{orders.map((order, index) => (
 							<tr key={index}>
+								<td>{order.orderId}</td>
+								<td>{order.name}</td>
+								<td>{order.phone}</td>
+								<td>{order.email}</td>
 								<td>
-									<img src={`${API_URL}/${product.productImages[0]}`} alt="Product" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-								</td>
-								<td>{product.productName}</td>
-								<td>{product.productDescription}</td>
-								<td>{product.productPrice}</td>
-								<td>{product.productQuantity}</td>
-								<td>{product.productDiscount}%</td>
-								<td>{product.productTaxRate}%</td>
-								<td>
-									<Link to={`/products/edit/${product._id}`} className="text-primary" style={{ cursor: 'pointer', marginRight: '10px' }}>
+									<Link to={`/orders/edit/${order._id}`} className="text-primary" style={{ cursor: 'pointer', marginRight: '10px' }}>
 										<MdEdit />
 									</Link>
-									<a className="text-danger" onClick={() => deleteProduct(product._id)} style={{ cursor: 'pointer' }}>
+									<a className="text-danger" onClick={() => deleteOrder(order._id)} style={{ cursor: 'pointer' }}>
 										<MdDelete />
 									</a>
 								</td>

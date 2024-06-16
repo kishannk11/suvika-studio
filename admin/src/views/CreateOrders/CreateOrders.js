@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormInput, CFormTextarea, CButton, CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell, CFormLabel as CLabel, CFormSelect, CFormLabel } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormInput, CFormTextarea, CButton, CTable, CTableHead, CTableBody, CTableRow, CTableHeaderCell, CTableDataCell, CFormLabel as CLabel, CFormSelect, CFormLabel, CFormCheck } from '@coreui/react'
 import Swal from 'sweetalert2'
 import { API_URL } from '../../config';
 import { checkSession, handleNon200Response } from '../../utils/session';
@@ -185,8 +185,18 @@ const CreateOrder = () => {
 		);
 	};
 
+	const handleDiscountTypeChange = (event, index) => {
+		const newDiscountType = event.target.value;
+		setSelectedProducts(prevProducts =>
+			prevProducts.map((product, idx) =>
+				idx === index ? { ...product, discountType: newDiscountType } : product
+			)
+		);
+	};
 	const grandTotal = selectedProducts.reduce((acc, product) => {
-		return acc + (product.productPrice * product.quantity - (product.productPrice * product.quantity * product.discount / 100));
+		return acc + (product.discountType === 'cash' ?
+			(product.productPrice * product.quantity - product.discount) :
+			(product.productPrice * product.quantity - (product.productPrice * product.quantity * product.discount / 100)));
 	}, 0);
 
 	return (
@@ -273,6 +283,7 @@ const CreateOrder = () => {
 												<CTableHeaderCell>Quantity</CTableHeaderCell>
 												<CTableHeaderCell>Price</CTableHeaderCell>
 												<CTableHeaderCell>Discount</CTableHeaderCell>
+												<CTableHeaderCell>Discount Type</CTableHeaderCell>
 												<CTableHeaderCell>Total</CTableHeaderCell>
 												<CTableHeaderCell>Action</CTableHeaderCell>
 											</CTableRow>
@@ -290,12 +301,34 @@ const CreateOrder = () => {
 															style={{ width: '80px' }}
 														/>
 													</CTableDataCell>
-													<CTableDataCell>{product.productPrice}</CTableDataCell>
+													<CTableDataCell>₹{product.productPrice}</CTableDataCell>
 													<CTableDataCell>
 														<CFormInput type="number" value={product.discount} min="0" max="100" onChange={(e) => handleDiscountChange(e, index)} style={{ width: '80px' }} />
 													</CTableDataCell>
 													<CTableDataCell>
-														{product.productPrice * product.quantity - (product.productPrice * product.quantity * product.discount / 100)}
+														<CFormCheck
+															type="radio"
+															name={`discountType-${index}`}
+															id={`discountType-cash-${index}`}
+															value="cash"
+															label="Cash"
+															checked={product.discountType === 'cash'}
+															onChange={(e) => handleDiscountTypeChange(e, index)}
+														/>
+														<CFormCheck
+															type="radio"
+															name={`discountType-${index}`}
+															id={`discountType-percentage-${index}`}
+															value="percentage"
+															label="Percentage"
+															checked={product.discountType === 'percentage'}
+															onChange={(e) => handleDiscountTypeChange(e, index)}
+														/>
+													</CTableDataCell>
+													<CTableDataCell>
+														{product.discountType === 'cash' ?
+															(product.productPrice * product.quantity - product.discount) :
+															(product.productPrice * product.quantity - (product.productPrice * product.quantity * product.discount / 100))}
 													</CTableDataCell>
 													<CTableDataCell>
 														<CButton type="button" color="danger" onClick={() => handleRemoveProduct(index)}>
@@ -309,7 +342,7 @@ const CreateOrder = () => {
 								</div>
 							</CCol>
 							<CCol md="12" className="text-right">
-								<h5>Total: ${grandTotal.toFixed(2)}</h5>
+								<h5>Total: ₹{grandTotal.toFixed(2)}</h5>
 							</CCol>
 						</CRow>
 						<CButton type="submit" color="primary">Create Order</CButton>

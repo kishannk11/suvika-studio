@@ -7,7 +7,6 @@ const { check, validationResult } = require('express-validator');
 router.post('/add', [
 	auth,
 	check('categoryName').not().isEmpty().withMessage('Category name is required'),
-	check('mainCategoryId').isMongoId().withMessage('Invalid main category ID')
 ], async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -15,19 +14,24 @@ router.post('/add', [
 	}
 
 	try {
-		const { categoryName, mainCategoryId } = req.body;
-		const newSubCategory = new SubCategory({ categoryName, mainCategoryId });
-		const savedSubCategory = await newSubCategory.save();
-		res.status(201).json(savedSubCategory);
+		const { categoryName } = req.body;
+		// Check if the category already exists to prevent duplicate key error
+		const existingCategory = await MainCategory.findOne({ categoryName });
+		if (existingCategory) {
+			return res.status(400).json({ message: 'Category already exists' });
+		}
+		const newMainCategory = new MainCategory({ categoryName });
+		const savedMainCategory = await newMainCategory.save();
+		res.status(201).json(savedMainCategory);
 	} catch (error) {
-		res.status(400).json({ message: error.message });
+		res.status(500).json({ message: error.message });
 	}
 });
 
 router.get('/list', auth, async (req, res) => {
 	try {
 		const categories = await MainCategory.find();
-		res.json(categories);
+		res.status(200).json({ status: true, data: categories });
 	} catch (error) {
 		console.error(error); // Log the error for server-side inspection
 		res.status(500).json({ message: 'An error occurred while fetching the categories' });

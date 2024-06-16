@@ -9,10 +9,7 @@ const _nav = [
 		name: 'Dashboard',
 		to: '/dashboard',
 		icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-		badge: {
-			color: 'info',
-			text: 'NEW',
-		},
+
 	},
 	{
 		component: CNavGroup,
@@ -53,8 +50,13 @@ const _nav = [
 		items: [
 			{
 				component: CNavItem,
+				name: 'Create Order',
+				to: '/orders/create/new',
+			},
+			{
+				component: CNavItem,
 				name: 'New Orders',
-				to: '/orders/new',
+				to: '/orders/create/list',
 			},
 			{
 				component: CNavItem,
@@ -108,21 +110,39 @@ const _nav = [
 			},
 		],
 	},
+	/* 	{
+			component: CNavGroup,
+			name: 'Create Orders',
+			to: '/orders/create',
+			icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+			items: [
+				{
+					component: CNavItem,
+					name: 'New Order',
+					to: '/orders/create/new',
+				},
+				{
+					component: CNavItem,
+					name: 'List Orders',
+					to: '/orders/create/list',
+				},
+			],
+		}, */
 	{
 		component: CNavGroup,
-		name: 'Create Orders',
-		to: '/orders/create',
-		icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+		name: 'Coupons',
+		to: '/coupons',
+		icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
 		items: [
 			{
 				component: CNavItem,
-				name: 'New Order',
-				to: '/orders/create/new',
+				name: 'Add Coupon',
+				to: '/coupons/create',
 			},
 			{
 				component: CNavItem,
-				name: 'List Orders',
-				to: '/orders/create/list',
+				name: 'List Coupons',
+				to: '/coupons/list',
 			},
 		],
 	},

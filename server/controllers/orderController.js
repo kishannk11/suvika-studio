@@ -9,9 +9,15 @@ exports.createOrder = async (req, res) => {
 	}
 
 	try {
-		const newOrder = new Order(req.body);
+		// Generate orderId with prefix 'SUVK' followed by current date in YYYYMMDD format
+		const date = new Date();
+		const dateString = date.toISOString().split('T')[0].replace(/-/g, '');
+		const orderId = `SUVK${dateString}`;
+
+		const orderData = { ...req.body, orderId };
+		const newOrder = new Order(orderData);
 		const savedOrder = await newOrder.save();
-		res.status(201).json({ message: 'Order created' });
+		res.status(201).json({ message: 'Order created', orderId: savedOrder.orderId });
 	} catch (error) {
 		console.error('Order creation failed:', error);
 		res.status(500).json({ message: 'Failed to create order' });
@@ -21,7 +27,7 @@ exports.createOrder = async (req, res) => {
 exports.listOrders = async (req, res) => {
 	try {
 		const orders = await Order.find({});
-		res.status(200).json(orders);
+		res.status(200).json({ success: true, data: orders });
 	} catch (error) {
 		console.error('Failed to retrieve orders:', error);
 		res.status(500).json({ message: 'Failed to retrieve orders' });

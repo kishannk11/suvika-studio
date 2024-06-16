@@ -5,6 +5,20 @@ const ProductSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	mainCategoryId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MainCategory',
+		required: true,
+	},
+	subCategoryId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'SubCategory',
+		required: true,
+	},
+	discountType: {
+		type: String,
+		required: true,
+	},
 	productDescription: {
 		type: String,
 		required: true,

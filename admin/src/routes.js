@@ -64,6 +64,11 @@ const SubCategoryList = React.lazy(() => import('./views/categories/sub/SubCateg
 const CreateOrder = React.lazy(() => import('./views/CreateOrders/CreateOrders'));
 const OrdersList = React.lazy(() => import('./views/CreateOrders/OrdersList'));
 
+const CreateCoupon = React.lazy(() => import('./views/coupons/CreateCoupon'));
+const ListCoupon = React.lazy(() => import('./views/coupons/ListCoupon'));
+const EditCoupon = React.lazy(() => import('./views/coupons/EditCoupon'));
+
+
 
 
 
@@ -120,6 +125,9 @@ const routes = [
 	{ path: '/categories/sub-list', name: 'Sub Categories', element: SubCategoryList },
 	{ path: '/orders/create/new', name: 'Create Orders', element: CreateOrder },
 	{ path: '/orders/create/list', name: 'List Orders', element: OrdersList },
+	{ path: '/coupons/create', name: 'Create Coupon', element: CreateCoupon },
+	{ path: '/coupons/list', name: 'List Coupons', element: ListCoupon },
+	{ path: '/coupons/edit/:couponId', name: 'Edit Coupon', element: EditCoupon },
 ]
 
 export default routes
