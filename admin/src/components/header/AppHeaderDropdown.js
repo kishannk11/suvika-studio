@@ -22,7 +22,7 @@ import {
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
+import avatar8 from './../../assets/images/avatar_main.jpg'
 
 const AppHeaderDropdown = () => {
 	return (
@@ -60,7 +60,7 @@ const AppHeaderDropdown = () => {
 						42
 					</CBadge>
 				</CDropdownItem> */}
-				<CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
+				{/* <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
 				<CDropdownItem href="#">
 					<CIcon icon={cilUser} className="me-2" />
 					Profile
@@ -68,7 +68,7 @@ const AppHeaderDropdown = () => {
 				<CDropdownItem href="#">
 					<CIcon icon={cilSettings} className="me-2" />
 					Settings
-				</CDropdownItem>
+				</CDropdownItem> */}
 				{/* 				<CDropdownItem href="#">
 					<CIcon icon={cilCreditCard} className="me-2" />
 					Payments
@@ -86,7 +86,7 @@ const AppHeaderDropdown = () => {
 				<CDropdownDivider />
 				<CDropdownItem href="#">
 					<CIcon icon={cilLockLocked} className="me-2" />
-					Lock Account
+					Logout
 				</CDropdownItem>
 			</CDropdownMenu>
 		</CDropdown>

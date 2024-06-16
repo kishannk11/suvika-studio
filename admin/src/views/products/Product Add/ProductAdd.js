@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton, CFormSelect, CFormCheck } from '@coreui/react'
 import Swal from 'sweetalert2'
 import { API_URL } from '../../../config';
-import { checkSession } from '../../../utils/session';
+import { checkSession, handleNon200Response } from '../../../utils/session';
+import axios from 'axios';
 
 const ProductAdd = () => {
 	const [productName, setProductName] = useState('')
@@ -12,16 +13,83 @@ const ProductAdd = () => {
 	const [productDiscount, setProductDiscount] = useState('')
 	const [productTaxRate, setProductTaxRate] = useState('')
 	const [productImages, setProductImages] = useState([])
+	const [mainCategories, setMainCategories] = useState([]);
+	const [subCategories, setSubCategories] = useState([]);
+	const [discountType, setDiscountType] = useState('percentage');
 
 	useEffect(() => {
 		checkSession();
 	}, []);
 
+
+	const fetchMainCategory = async () => {
+		const token = localStorage.getItem('token');
+
+		try {
+			const response = await axios.get(`${API_URL}/api/maincategory/list`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+
+			if (response.status === 200) {
+				setMainCategories(response.data.data);
+			} else {
+				handleNon2000Response(response);
+			}
+		} catch (error) {
+			if (error.response) {
+				handleNon200Response(error.response);
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Unexpected Error! Please check your network connection.'
+				});
+			}
+		}
+	};
+
+	const fetchSubCategory = async (mainCategoryId) => {
+		const token = localStorage.getItem('token');
+
+		try {
+			const response = await axios.get(`${API_URL}/api/subcategory/fetch/${mainCategoryId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+
+			if (response.status === 200) {
+				setSubCategories(response.data.data);
+			} else {
+				setSubCategories([]);
+				handleNon200Response(response);
+			}
+		} catch (error) {
+			if (error.response) {
+				setSubCategories([]);
+				handleNon200Response(error.response);
+			} else {
+				setSubCategories([]);
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Unexpected Error! Please check your network connection.'
+				});
+			}
+		}
+	};
+	useEffect(() => {
+		fetchMainCategory();
+	}, []);
+
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const token = localStorage.getItem('token');
 		// Extended validation checks
-		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productQuantity.trim() || !productDiscount.trim() || !productTaxRate.trim()) {
+		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productQuantity.trim() || !productDiscount.trim() || !productTaxRate.trim() || !mainCategories.length || !subCategories.length) {
 			Swal.fire({
 				icon: 'error',
 				title: 'Oops...',
@@ -54,6 +122,9 @@ const ProductAdd = () => {
 		formData.append('productQuantity', parseInt(sanitizedProductQuantity));
 		formData.append('productDiscount', parseFloat(sanitizedProductDiscount).toFixed(2));
 		formData.append('productTaxRate', parseFloat(sanitizedProductTaxRate).toFixed(2));
+		formData.append('mainCategoryId', mainCategories[0]._id);
+		formData.append('subCategoryId', subCategories[0]._id);
+		formData.append('discountType', discountType);
 
 		// Append each file to the formData object
 		for (const file of productImages) {
@@ -110,7 +181,28 @@ const ProductAdd = () => {
 									/>
 								</div>
 							</CCol>
-
+							<CCol xs="12">
+								<div className="mb-3">
+									<CFormLabel htmlFor="mainCategory">Main Category</CFormLabel>
+									<CFormSelect id="mainCategory" onChange={(e) => fetchSubCategory(e.target.value)}>
+										<option value="">Select Main Category</option>
+										{mainCategories && mainCategories.map((category) => (
+											<option key={category._id} value={category._id}>{category.categoryName}</option>
+										))}
+									</CFormSelect>
+								</div>
+							</CCol>
+							<CCol xs="12">
+								<div className="mb-3">
+									<CFormLabel htmlFor="subCategory">Sub Category</CFormLabel>
+									<CFormSelect id="subCategory">
+										<option value="">Select Sub Category</option>
+										{subCategories && subCategories.map((subCategory) => (
+											<option key={subCategory._id} value={subCategory._id}>{subCategory.categoryName}</option>
+										))}
+									</CFormSelect>
+								</div>
+							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productPrice">Product Price</CFormLabel>
@@ -135,13 +227,32 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
-									<CFormLabel htmlFor="productDiscount">Discount Percentage</CFormLabel>
+									<CFormLabel htmlFor="productDiscount">Discount</CFormLabel>
 									<CFormInput
 										id="productDiscount"
-										placeholder="Enter discount percentage"
+										placeholder="Enter discount value"
 										type="number"
 										onChange={(e) => setProductDiscount(e.target.value)}
 									/>
+									<div className="mt-2">
+										<CFormCheck
+											type="radio"
+											name="discountType"
+											id="percentage"
+											label="Percentage"
+											value="percentage"
+											onChange={(e) => setDiscountType(e.target.value)}
+											defaultChecked
+										/>
+										<CFormCheck
+											type="radio"
+											name="discountType"
+											id="cash"
+											label="Cash"
+											value="cash"
+											onChange={(e) => setDiscountType(e.target.value)}
+										/>
+									</div>
 								</div>
 							</CCol>
 							<CCol xs="12">

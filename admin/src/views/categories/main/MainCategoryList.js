@@ -19,7 +19,7 @@ const MainCategoryList = () => {
 						'Authorization': `Bearer ${token}`,
 					},
 				});
-				setMainCategories(response.data);
+				setMainCategories(response.data.data);
 			} catch (error) {
 				console.error('Error fetching main categories:', error);
 			}

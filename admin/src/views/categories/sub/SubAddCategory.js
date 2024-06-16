@@ -24,7 +24,7 @@ const SubAddCategory = () => {
 				},
 			});
 			if (response.data) {
-				setMainCategories(response.data);
+				setMainCategories(response.data.data);
 			}
 		} catch (error) {
 			console.error('Failed to fetch main categories:', error);

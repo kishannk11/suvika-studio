@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	try {
-		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate } = req.body;
+		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType } = req.body;
 		let productImages = [];
 		if (req.files) {
 			productImages = req.files.map(file => file.path);
@@ -30,7 +30,10 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 			productQuantity,
 			productDiscount,
 			productTaxRate,
-			productImages
+			productImages,
+			mainCategoryId,
+			subCategoryId,
+			discountType
 		});
 
 		const product = await newProduct.save();
@@ -43,7 +46,7 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 
 router.get('/list', auth, async (req, res) => {
 	try {
-		const products = await Product.find({});
+		const products = await Product.find({}).populate('mainCategoryId', 'categoryName').populate('subCategoryId', 'categoryName');
 		res.json(products);
 	} catch (err) {
 		console.error(err.message);
@@ -60,6 +63,25 @@ router.get('/list-guest', async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
+router.get('/search', auth, async (req, res) => {
+	try {
+		const query = req.query.query;
+		if (!query || query.length < 2) {
+			return res.status(400).json({ msg: 'Query must be at least 2 characters long' });
+		}
+
+		const products = await Product.find({
+			productName: { $regex: query, $options: 'i' }
+		});
+
+		res.json(products);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 
 router.delete('/:id', auth, async (req, res) => {
 	try {
