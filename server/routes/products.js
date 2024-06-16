@@ -46,7 +46,7 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 
 router.get('/list', auth, async (req, res) => {
 	try {
-		const products = await Product.find({});
+		const products = await Product.find({}).populate('mainCategoryId', 'categoryName').populate('subCategoryId', 'categoryName');
 		res.json(products);
 	} catch (err) {
 		console.error(err.message);
