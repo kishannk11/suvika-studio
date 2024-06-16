@@ -15,6 +15,11 @@ router.post('/add', [
 	}
 	try {
 		const { categoryName, mainCategoryId } = req.body;
+		// Check if the subcategory already exists
+		const existingSubCategory = await SubCategory.findOne({ categoryName, mainCategoryId });
+		if (existingSubCategory) {
+			return res.status(409).json({ message: 'Subcategory already exists' });
+		}
 		const newSubCategory = new SubCategory({ categoryName, mainCategoryId });
 		const savedSubCategory = await newSubCategory.save();
 		res.status(201).json(savedSubCategory);
