@@ -21,6 +21,7 @@ const ProductAdd = () => {
 	const [productTrending, setProductTrending] = useState([]);
 	const [productMaterialCare, setProductMaterialCare] = useState('');
 	const [productWeight, setProductWeight] = useState('');
+	const [productPreOrder, setProductPreOrder] = useState(false);
 
 
 	useEffect(() => {
@@ -132,10 +133,11 @@ const ProductAdd = () => {
 		formData.append('subCategoryId', subCategories[0]._id);
 		formData.append('discountType', discountType);
 		formData.append('additionalInfo', additionalInfo);
-		formData.append('productColors', productColors);
+		formData.append('productColors', JSON.stringify(productColors));
 		formData.append('productTrending', productTrending);
 		formData.append('productMaterialCare', productMaterialCare);
 		formData.append('productWeight', productWeight);
+		formData.append('productPreOrder', productPreOrder);
 
 
 
@@ -174,12 +176,17 @@ const ProductAdd = () => {
 		}
 	}
 	const addColor = () => {
-		setProductColors([...productColors, '']); // Add a new empty color
-		console.log(productColors);
+		setProductColors([...productColors, { name: '', value: '#ffffff' }]); // Default color value
 	};
-	const handleColorChange = (color, index) => {
+	const handleColorChange = (value, index) => {
 		const newColors = [...productColors];
-		newColors[index] = color;
+		newColors[index] = { ...newColors[index], value };
+		setProductColors(newColors);
+	};
+
+	const handleNameChange = (name, index) => {
+		const newColors = [...productColors];
+		newColors[index] = { ...newColors[index], name };
 		setProductColors(newColors);
 	};
 	const removeColor = (index) => {
@@ -258,8 +265,15 @@ const ProductAdd = () => {
 										{productColors.map((color, index) => (
 											<div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginBottom: '10px' }}>
 												<input
+													type="text"
+													value={color.name}
+													onChange={(e) => handleNameChange(e.target.value, index)}
+													placeholder="Color Name"
+													style={{ marginRight: '5px' }}
+												/>
+												<input
 													type="color"
-													value={color}
+													value={color.value}
 													onChange={(e) => handleColorChange(e.target.value, index)}
 													title="Choose your color"
 												/>
@@ -286,16 +300,38 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
+									<CFormLabel htmlFor="productPreOrder">Pre-Order</CFormLabel>
+									<CFormCheck
+										type="checkbox"
+										id="productPreOrder"
+										label="Is this product available for pre-order?"
+										checked={productPreOrder}
+										onChange={(e) => setProductPreOrder(e.target.checked)}
+									/>
+								</div>
+							</CCol>
+							<CCol xs="12">
+								<div className="mb-3">
 									<CFormLabel htmlFor="productTrending">Trending</CFormLabel>
-									<CFormSelect id="productTrending" multiple onChange={(e) => {
-										const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-										setProductTrending(selectedOptions);
-									}}>
-										<option value="new">New</option>
-										<option value="bestseller">Bestseller</option>
-										<option value="limited">Limited Edition</option>
-										<option value="seasonal">Seasonal</option>
-									</CFormSelect>
+									<div>
+										{['Best Seller', 'Trending', 'New', 'Hot-Sales', 'Pre-Order'].map((trend, index) => (
+											<CFormCheck
+												key={index}
+												type="checkbox"
+												id={`trend-${trend}`}
+												label={trend}
+												value={trend}
+												onChange={(e) => {
+													if (e.target.checked) {
+														setProductTrending([...productTrending, trend]);
+													} else {
+														setProductTrending(productTrending.filter(t => t !== trend));
+													}
+												}}
+												checked={productTrending.includes(trend)}
+											/>
+										))}
+									</div>
 								</div>
 							</CCol>
 							<CCol xs="12">

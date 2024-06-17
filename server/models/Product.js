@@ -59,6 +59,10 @@ const ProductSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	}],
+	productPreOrder: {
+		type: Boolean,
+		required: true,
+	},
 
 }, { timestamps: true });
 
