@@ -1,71 +1,65 @@
-import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton, CFormSelect, CFormCheck, CMultiSelect } from '@coreui/react-pro'
-import Swal from 'sweetalert2'
+import React, { useState, useEffect } from 'react';
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton, CFormSelect, CFormCheck } from '@coreui/react';
+import Swal from 'sweetalert2';
 import { API_URL } from '../../../config';
 import { checkSession, handleNon200Response } from '../../../utils/session';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const ProductAdd = () => {
-	const [productName, setProductName] = useState('')
-	const [productDescription, setProductDescription] = useState('')
-	const [productPrice, setProductPrice] = useState('')
-	const [productQuantity, setProductQuantity] = useState('')
-	const [productDiscount, setProductDiscount] = useState('')
-	const [productTaxRate, setProductTaxRate] = useState('')
-	const [productImages, setProductImages] = useState([])
+const ProductEdit = () => {
+	const [productName, setProductName] = useState('');
+	const [productDescription, setProductDescription] = useState('');
+	const [productPrice, setProductPrice] = useState('');
+	const [productQuantity, setProductQuantity] = useState('');
+	const [productDiscount, setProductDiscount] = useState('');
+	const [productTaxRate, setProductTaxRate] = useState('');
+	const [productImages, setProductImages] = useState([]);
 	const [mainCategories, setMainCategories] = useState([]);
 	const [subCategories, setSubCategories] = useState([]);
+	const [mainCategoryId, setMainCategoryId] = useState('');
+	const [subCategoryId, setSubCategoryId] = useState('');
 	const [discountType, setDiscountType] = useState('percentage');
-	const [productColors, setProductColors] = useState([]);
-	const [additionalInfo, setAdditionalInfo] = useState('');
-	const [productTrending, setProductTrending] = useState([]);
-	const [productMaterialCare, setProductMaterialCare] = useState('');
-	const [productWeight, setProductWeight] = useState('');
 
+	const { productId } = useParams();
 
 	useEffect(() => {
 		checkSession();
+		fetchMainCategories();
+		fetchProduct();
 	}, []);
 
-
-	const fetchMainCategory = async () => {
+	const fetchMainCategories = async () => {
 		const token = localStorage.getItem('token');
-
 		try {
 			const response = await axios.get(`${API_URL}/api/maincategory/list`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			});
-
 			if (response.status === 200) {
+				console.log("fetchMainCategories", response.data.data);
 				setMainCategories(response.data.data);
 			} else {
 				handleNon200Response(response);
 			}
 		} catch (error) {
-			if (error.response) {
-				handleNon200Response(error.response);
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: 'Error',
-					text: 'Unexpected Error! Please check your network connection.'
-				});
-			}
+			console.error(error);
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Failed to fetch main categories.'
+			});
 		}
 	};
 
-	const fetchSubCategory = async (mainCategoryId) => {
+	const fetchSubCategories = async (mainCategoryId) => {
 		const token = localStorage.getItem('token');
-
 		try {
 			const response = await axios.get(`${API_URL}/api/subcategory/fetch/${mainCategoryId}`, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			});
-
 			if (response.status === 200) {
 				setSubCategories(response.data.data);
 			} else {
@@ -73,29 +67,66 @@ const ProductAdd = () => {
 				handleNon200Response(response);
 			}
 		} catch (error) {
-			if (error.response) {
-				setSubCategories([]);
-				handleNon200Response(error.response);
-			} else {
-				setSubCategories([]);
-				Swal.fire({
-					icon: 'error',
-					title: 'Error',
-					text: 'Unexpected Error! Please check your network connection.'
-				});
-			}
+			console.error(error);
+			setSubCategories([]);
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Failed to fetch subcategories.'
+			});
 		}
 	};
+
 	useEffect(() => {
-		fetchMainCategory();
-	}, []);
+		if (mainCategoryId) {
+			fetchSubCategories(mainCategoryId);
+		}
+	}, [mainCategoryId]);
+
+	const fetchProduct = async () => {
+		const token = localStorage.getItem('token');
+		try {
+			const response = await axios.get(`${API_URL}/api/products/${productId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			if (response.data && response.data.data) {
+				setProductName(response.data.data.productName);
+				setProductDescription(response.data.data.productDescription);
+				setProductPrice(response.data.data.productPrice);
+				setProductQuantity(response.data.data.productQuantity);
+				setProductDiscount(response.data.data.productDiscount);
+				setProductTaxRate(response.data.data.productTaxRate);
+				setProductImages(response.data.data.productImages);
+				setMainCategoryId(response.data.data.mainCategoryId._id);
+				setSubCategoryId(response.data.data.subCategoryId._id);
+				setDiscountType(response.data.data.discountType);
+			} else {
+				handleNon200Response(response);
+			}
+		} catch (error) {
+			console.error('Failed to fetch product details:', error);
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Failed to fetch product details.'
+			});
+		}
+	};
 
 
+	const handleMainCategoryChange = (e) => {
+		const selectedMainCategoryId = e.target.value;
+		console.log('selectedMainCategoryId', selectedMainCategoryId);
+		setMainCategoryId(selectedMainCategoryId);
+		fetchSubCategories(selectedMainCategoryId);
+	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const token = localStorage.getItem('token');
 		// Extended validation checks
-		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productQuantity.trim() || !productDiscount.trim() || !productTaxRate.trim() || !mainCategories.length || !subCategories.length || !productMaterialCare.trim() || !productWeight.trim() || !productTrending.length || !productColors.length) {
+		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productQuantity.trim() || !productDiscount.trim() || !productTaxRate.trim() || !mainCategories.length || !subCategories.length) {
 			Swal.fire({
 				icon: 'error',
 				title: 'Oops...',
@@ -131,13 +162,6 @@ const ProductAdd = () => {
 		formData.append('mainCategoryId', mainCategories[0]._id);
 		formData.append('subCategoryId', subCategories[0]._id);
 		formData.append('discountType', discountType);
-		formData.append('additionalInfo', additionalInfo);
-		formData.append('productColors', productColors);
-		formData.append('productTrending', productTrending);
-		formData.append('productMaterialCare', productMaterialCare);
-		formData.append('productWeight', productWeight);
-
-
 
 		// Append each file to the formData object
 		for (const file of productImages) {
@@ -173,25 +197,12 @@ const ProductAdd = () => {
 			});
 		}
 	}
-	const addColor = () => {
-		setProductColors([...productColors, '']); // Add a new empty color
-		console.log(productColors);
-	};
-	const handleColorChange = (color, index) => {
-		const newColors = [...productColors];
-		newColors[index] = color;
-		setProductColors(newColors);
-	};
-	const removeColor = (index) => {
-		setProductColors(productColors.filter((_, i) => i !== index));
-	};
-
 
 	return (
 		<>
 			<CCard>
 				<CCardHeader>
-					Add Product
+					Edit Product
 				</CCardHeader>
 				<CCardBody>
 					<CForm onSubmit={handleSubmit}>
@@ -210,9 +221,9 @@ const ProductAdd = () => {
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="mainCategory">Main Category</CFormLabel>
-									<CFormSelect id="mainCategory" onChange={(e) => fetchSubCategory(e.target.value)}>
+									<CFormSelect id="mainCategory" value={mainCategoryId} onChange={(e) => { console.log(e.target.value); handleMainCategoryChange(e); }}>
 										<option value="">Select Main Category</option>
-										{mainCategories && mainCategories.map((category) => (
+										{Array.isArray(mainCategories) && mainCategories.map((category) => (
 											<option key={category._id} value={category._id}>{category.categoryName}</option>
 										))}
 									</CFormSelect>
@@ -221,10 +232,10 @@ const ProductAdd = () => {
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="subCategory">Sub Category</CFormLabel>
-									<CFormSelect id="subCategory">
+									<CFormSelect id="subCategory" value={subCategories} onChange={(e) => setSubCategories(e.target.value)}>
 										<option value="">Select Sub Category</option>
-										{subCategories && subCategories.map((subCategory) => (
-											<option key={subCategory._id} value={subCategory._id}>{subCategory.categoryName}</option>
+										{Array.isArray(subCategories) && subCategories.map((category) => (
+											<option key={category._id} value={category._id}>{category.categoryName}</option>
 										))}
 									</CFormSelect>
 								</div>
@@ -247,66 +258,9 @@ const ProductAdd = () => {
 										id="productQuantity"
 										placeholder="Enter product quantity"
 										type="number"
+										value={productQuantity}
 										onChange={(e) => setProductQuantity(e.target.value)}
 									/>
-								</div>
-							</CCol>
-							<CCol xs="12">
-								<div className="mb-3">
-									<CFormLabel htmlFor="productColor">Product Color</CFormLabel>
-									<div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-										{productColors.map((color, index) => (
-											<div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginBottom: '10px' }}>
-												<input
-													type="color"
-													value={color}
-													onChange={(e) => handleColorChange(e.target.value, index)}
-													title="Choose your color"
-												/>
-												<button type="button" onClick={() => removeColor(index)} style={{ marginLeft: '5px' }}>-</button>
-											</div>
-										))}
-										<div style={{ display: 'flex', alignItems: 'center' }}>
-											<button type="button" onClick={addColor} style={{ height: '38px' }}>+</button>
-										</div>
-									</div>
-								</div>
-							</CCol>
-							<CCol xs="12">
-								<div className="mb-3">
-									<CFormLabel htmlFor="productWeight">Saree Info</CFormLabel>
-									<CFormTextarea
-										onChange={(e) => setProductWeight(e.target.value)}
-										id="productWeight"
-										placeholder="Enter Saree Details"
-										type="text"
-										rows="3"
-									/>
-								</div>
-							</CCol>
-							<CCol xs="12">
-								<div className="mb-3">
-									<CFormLabel htmlFor="productTrending">Trending</CFormLabel>
-									<CFormSelect id="productTrending" multiple onChange={(e) => {
-										const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-										setProductTrending(selectedOptions);
-									}}>
-										<option value="new">New</option>
-										<option value="bestseller">Bestseller</option>
-										<option value="limited">Limited Edition</option>
-										<option value="seasonal">Seasonal</option>
-									</CFormSelect>
-								</div>
-							</CCol>
-							<CCol xs="12">
-								<div className="mb-3">
-									<CFormLabel htmlFor="productMaterialCare">Material and Care</CFormLabel>
-									<CFormTextarea
-										onChange={(e) => setProductMaterialCare(e.target.value)}
-										id="productMaterialCare"
-										rows="3"
-										placeholder="Enter material and care information"
-									></CFormTextarea>
 								</div>
 							</CCol>
 							<CCol xs="12">
@@ -316,6 +270,7 @@ const ProductAdd = () => {
 										id="productDiscount"
 										placeholder="Enter discount value"
 										type="number"
+										value={productDiscount}
 										onChange={(e) => setProductDiscount(e.target.value)}
 									/>
 									<div className="mt-2">
@@ -365,17 +320,6 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
-									<CFormLabel htmlFor="additionalInfo">Additional Information</CFormLabel>
-									<CFormTextarea
-										id="additionalInfo"
-										rows="3"
-										placeholder="Enter additional product information"
-										onChange={(e) => setAdditionalInfo(e.target.value)}
-									></CFormTextarea>
-								</div>
-							</CCol>
-							<CCol xs="12">
-								<div className="mb-3">
 									<CFormLabel htmlFor="productImages">Product Images</CFormLabel>
 									<CFormInput
 										type="file"
@@ -386,7 +330,7 @@ const ProductAdd = () => {
 								</div>
 							</CCol>
 						</CRow>
-						<CButton type="submit" color="primary">Add Product</CButton>
+						<CButton type="submit" color="primary">Edit Product</CButton>
 					</CForm>
 				</CCardBody>
 			</CCard>
@@ -394,4 +338,4 @@ const ProductAdd = () => {
 	)
 }
 
-export default ProductAdd
+export default ProductEdit

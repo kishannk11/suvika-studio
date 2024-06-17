@@ -31,8 +31,24 @@ const ProductSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
-	productDiscount: {
-		type: Number,
+	productColors: [{
+		type: String,
+		required: true,
+	}],
+	productTrending: [{
+		type: String,
+		required: true,
+	}],
+	productMaterialCare: {
+		type: String,
+		required: true,
+	},
+	additionalInfo: {
+		type: String,
+		required: false,
+	},
+	productWeight: {
+		type: String,
 		required: true,
 	},
 	productTaxRate: {
