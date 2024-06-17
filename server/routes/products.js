@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	try {
-		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType, productColors, productTrending, productMaterialCare, productWeight, additionalInfo } = req.body;
+		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType, productColors, productTrending, productMaterialCare, productWeight, additionalInfo, productPreOrder } = req.body;
 		let productImages = [];
 		if (req.files) {
 			productImages = req.files.map(file => file.path);
@@ -38,7 +38,8 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 			productTrending,
 			productMaterialCare,
 			productWeight,
-			additionalInfo
+			additionalInfo,
+			productPreOrder
 		});
 
 		const product = await newProduct.save();
@@ -53,6 +54,18 @@ router.get('/list', auth, async (req, res) => {
 	try {
 		const products = await Product.find({}).populate('mainCategoryId', 'categoryName').populate('subCategoryId', 'categoryName');
 		res.json(products);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+router.get('/preorders', auth, async (req, res) => {
+	try {
+		const preorders = await Product.find({
+			productPreOrder: true
+		}).populate('mainCategoryId', 'categoryName').populate('subCategoryId', 'categoryName');
+		res.json(preorders);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
