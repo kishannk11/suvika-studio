@@ -299,7 +299,7 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
-									<CFormLabel htmlFor="productTrending">Trending</CFormLabel>
+									<CFormLabel htmlFor="productTrending">Tags</CFormLabel>
 									<div>
 										{['Best Seller', 'Trending', 'New', 'Hot-Sales', 'Pre-Order'].map((trend, index) => (
 											<CFormCheck
