@@ -55,6 +55,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const ProductAdd = React.lazy(() => import('./views/products/Product Add/ProductAdd'));
 const ProductList = React.lazy(() => import('./views/products/ProductList/ProductList'));
 const ProductEdit = React.lazy(() => import('./views/products/ProductEdit/ProductEdit'));
+const PreOrderList = React.lazy(() => import('./views/products/PreOrder/PreOrderList'));
 
 const MainAddCategory = React.lazy(() => import('./views/categories/main/MainAddCategory'));
 const MainCategoryList = React.lazy(() => import('./views/categories/main/MainCategoryList'));
@@ -64,6 +65,7 @@ const SubCategoryList = React.lazy(() => import('./views/categories/sub/SubCateg
 
 const CreateOrder = React.lazy(() => import('./views/CreateOrders/CreateOrders'));
 const OrdersList = React.lazy(() => import('./views/CreateOrders/OrdersList'));
+
 
 const CreateCoupon = React.lazy(() => import('./views/coupons/CreateCoupon'));
 const ListCoupon = React.lazy(() => import('./views/coupons/ListCoupon'));
@@ -121,6 +123,7 @@ const routes = [
 	{ path: '/products/products-add', name: 'Products', element: ProductAdd },
 	{ path: '/products/list', name: 'Products', element: ProductList },
 	{ path: '/products/edit/:productId', name: 'Edit Product', element: ProductEdit },
+	{ path: '/products/pre-order', name: 'Pre-Orders', element: PreOrderList },
 	{ path: '/categories/main-add', name: 'Main Categories', element: MainAddCategory },
 	{ path: '/categories/main-list', name: 'Main Categories', element: MainCategoryList },
 	{ path: '/categories/sub-add', name: 'Sub Categories', element: SubAddCategory },

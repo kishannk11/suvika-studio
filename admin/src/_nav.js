@@ -40,6 +40,11 @@ const _nav = [
 				name: 'Add Product',
 				to: '/products/products-add',
 			},
+			{
+				component: CNavItem,
+				name: 'Pre-Order Products',
+				to: '/products/pre-order',
+			},
 		],
 	},
 	{
@@ -68,6 +73,7 @@ const _nav = [
 				name: 'Delivered Orders',
 				to: '/orders/delivered',
 			},
+
 		],
 	},
 	{

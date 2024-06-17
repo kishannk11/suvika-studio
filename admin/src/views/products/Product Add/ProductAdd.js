@@ -21,6 +21,7 @@ const ProductAdd = () => {
 	const [productTrending, setProductTrending] = useState([]);
 	const [productMaterialCare, setProductMaterialCare] = useState('');
 	const [productWeight, setProductWeight] = useState('');
+	const [productPreOrder, setProductPreOrder] = useState(false);
 
 
 	useEffect(() => {
@@ -136,6 +137,7 @@ const ProductAdd = () => {
 		formData.append('productTrending', productTrending);
 		formData.append('productMaterialCare', productMaterialCare);
 		formData.append('productWeight', productWeight);
+		formData.append('productPreOrder', productPreOrder);
 
 
 
@@ -298,9 +300,21 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
+									<CFormLabel htmlFor="productPreOrder">Pre-Order</CFormLabel>
+									<CFormCheck
+										type="checkbox"
+										id="productPreOrder"
+										label="Is this product available for pre-order?"
+										checked={productPreOrder}
+										onChange={(e) => setProductPreOrder(e.target.checked)}
+									/>
+								</div>
+							</CCol>
+							<CCol xs="12">
+								<div className="mb-3">
 									<CFormLabel htmlFor="productTrending">Trending</CFormLabel>
 									<div>
-										{['New', 'Bestseller', 'Limited Edition', 'Seasonal'].map((trend, index) => (
+										{['Best Seller', 'Trending', 'New', 'Hot-Sales', 'Pre-Order'].map((trend, index) => (
 											<CFormCheck
 												key={index}
 												type="checkbox"
