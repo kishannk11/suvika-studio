@@ -54,6 +54,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 //Additional pages added
 const ProductAdd = React.lazy(() => import('./views/products/Product Add/ProductAdd'));
 const ProductList = React.lazy(() => import('./views/products/ProductList/ProductList'));
+const ProductEdit = React.lazy(() => import('./views/products/ProductEdit/ProductEdit'));
 
 const MainAddCategory = React.lazy(() => import('./views/categories/main/MainAddCategory'));
 const MainCategoryList = React.lazy(() => import('./views/categories/main/MainCategoryList'));
@@ -119,6 +120,7 @@ const routes = [
 	{ path: '/widgets', name: 'Widgets', element: Widgets },
 	{ path: '/products/products-add', name: 'Products', element: ProductAdd },
 	{ path: '/products/list', name: 'Products', element: ProductList },
+	{ path: '/products/edit/:productId', name: 'Edit Product', element: ProductEdit },
 	{ path: '/categories/main-add', name: 'Main Categories', element: MainAddCategory },
 	{ path: '/categories/main-list', name: 'Main Categories', element: MainCategoryList },
 	{ path: '/categories/sub-add', name: 'Sub Categories', element: SubAddCategory },

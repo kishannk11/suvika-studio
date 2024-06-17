@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	try {
-		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType } = req.body;
+		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType, productColors, productTrending, productMaterialCare, productWeight, additionalInfo } = req.body;
 		let productImages = [];
 		if (req.files) {
 			productImages = req.files.map(file => file.path);
@@ -33,7 +33,12 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 			productImages,
 			mainCategoryId,
 			subCategoryId,
-			discountType
+			discountType,
+			productColors,
+			productTrending,
+			productMaterialCare,
+			productWeight,
+			additionalInfo
 		});
 
 		const product = await newProduct.save();
@@ -53,6 +58,20 @@ router.get('/list', auth, async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
+router.get('/:id', auth, async (req, res) => {
+	try {
+		const product = await Product.findById(req.params.id);
+		if (!product) {
+			return res.status(404).json({ msg: 'Product not found' });
+		}
+		res.status(200).json({ success: true, data: product });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 
 router.get('/list-guest', async (req, res) => {
 	try {
