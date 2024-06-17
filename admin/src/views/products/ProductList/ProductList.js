@@ -93,6 +93,7 @@ const ProductList = () => {
 							<th>Price</th>
 							<th>Stock</th>
 							<th>Discount</th>
+							<th>Discount Type</th>
 							<th>Tax Rate</th>
 							<th>Actions</th>
 						</tr>
@@ -109,7 +110,8 @@ const ProductList = () => {
 								<td>{product.subCategoryId ? product.subCategoryId.categoryName : 'N/A'}</td>
 								<td>{product.productPrice}</td>
 								<td>{product.productQuantity}</td>
-								<td>{product.productDiscount}%</td>
+								<td>{product.productDiscount}</td>
+								<td>{product.discountType}</td>
 								<td>{product.productTaxRate}%</td>
 								<td>
 									<Link to={`/products/edit/${product._id}`} className="text-primary" style={{ cursor: 'pointer', marginRight: '10px' }}>
