@@ -261,28 +261,15 @@ const ProductAdd = () => {
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productColor">Product Color</CFormLabel>
-									<div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+									<div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
 										{productColors.map((color, index) => (
 											<div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginBottom: '10px' }}>
-												<input
-													type="text"
-													value={color.name}
-													onChange={(e) => handleNameChange(e.target.value, index)}
-													placeholder="Color Name"
-													style={{ marginRight: '5px' }}
-												/>
-												<input
-													type="color"
-													value={color.value}
-													onChange={(e) => handleColorChange(e.target.value, index)}
-													title="Choose your color"
-												/>
-												<button type="button" onClick={() => removeColor(index)} style={{ marginLeft: '5px' }}>-</button>
+												<input type="text" value={color.name} onChange={(e) => handleNameChange(e.target.value, index)} placeholder="Color Name" style={{ marginRight: '5px' }}/>
+												<input type="color" value={color.value} onChange={(e) => handleColorChange(e.target.value, index)} title="Choose your color"/>
+												<button type="button" onClick={() => removeColor(index)} style={{ marginLeft: '5px', height: '30px', width: '30px', color: 'white', borderRadius: '50px' }}>-</button>
 											</div>
 										))}
-										<div style={{ display: 'flex', alignItems: 'center' }}>
-											<button type="button" onClick={addColor} style={{ height: '38px' }}>+</button>
-										</div>
+										<button type="button" onClick={addColor} style={{ height: '30px', width: '30px', color: 'white', borderRadius: '50px', alignSelf: 'flex-start' }}>+</button>
 									</div>
 								</div>
 							</CCol>
@@ -312,7 +299,7 @@ const ProductAdd = () => {
 							</CCol>
 							<CCol xs="12">
 								<div className="mb-3">
-									<CFormLabel htmlFor="productTrending">Trending</CFormLabel>
+									<CFormLabel htmlFor="productTrending">Tags</CFormLabel>
 									<div>
 										{['Best Seller', 'Trending', 'New', 'Hot-Sales', 'Pre-Order'].map((trend, index) => (
 											<CFormCheck
