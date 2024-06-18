@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton, CFormSelect, CFormCheck, CMultiSelect } from '@coreui/react-pro'
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CForm, CFormLabel, CFormInput, CFormTextarea, CButton, CFormSelect, CFormCheck } from '@coreui/react'
 import Swal from 'sweetalert2'
 import { API_URL } from '../../../config';
 import { checkSession, handleNon200Response } from '../../../utils/session';
@@ -9,9 +9,9 @@ const ProductAdd = () => {
 	const [productName, setProductName] = useState('')
 	const [productDescription, setProductDescription] = useState('')
 	const [productPrice, setProductPrice] = useState('')
-	const [productQuantity, setProductQuantity] = useState('')
+	//const [productQuantity, setProductQuantity] = useState('')
 	const [productDiscount, setProductDiscount] = useState('')
-	const [productTaxRate, setProductTaxRate] = useState('')
+	//const [productTaxRate, setProductTaxRate] = useState('')
 	const [productImages, setProductImages] = useState([])
 	const [mainCategories, setMainCategories] = useState([]);
 	const [subCategories, setSubCategories] = useState([]);
@@ -96,7 +96,7 @@ const ProductAdd = () => {
 		e.preventDefault();
 		const token = localStorage.getItem('token');
 		// Extended validation checks
-		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productQuantity.trim() || !productDiscount.trim() || !productTaxRate.trim() || !mainCategories.length || !subCategories.length || !productMaterialCare.trim() || !productWeight.trim() || !productTrending.length || !productColors.length) {
+		if (!productName.trim() || !productDescription.trim() || !productPrice.trim() || !productDiscount.trim() || !mainCategories.length || !subCategories.length || !productMaterialCare.trim() || !productWeight.trim() || !productTrending.length || !productColors.length) {
 			Swal.fire({
 				icon: 'error',
 				title: 'Oops...',
@@ -105,7 +105,7 @@ const ProductAdd = () => {
 			return;
 		}
 
-		if (Number.isNaN(Number(productPrice)) || productPrice <= 0 || Number.isNaN(Number(productQuantity)) || productQuantity < 0 || Number.isNaN(Number(productDiscount)) || productDiscount < 0 || Number.isNaN(Number(productTaxRate)) || productTaxRate < 0) {
+		if (Number.isNaN(Number(productPrice)) || productPrice <= 0 || Number.isNaN(Number(productDiscount)) || productDiscount < 0) {
 			Swal.fire({
 				icon: 'error',
 				title: 'Oops...',
@@ -117,18 +117,18 @@ const ProductAdd = () => {
 		// Enhanced security checks (example: input sanitization)
 		const sanitizedProductName = productName.replace(/<script>|<\/script>/gi, "");
 		const sanitizedProductDescription = productDescription.replace(/<script>|<\/script>/gi, "");
-		const sanitizedProductQuantity = productQuantity.replace(/[^0-9]/g, '');
+		//const sanitizedProductQuantity = productQuantity.replace(/[^0-9]/g, '');
 		const sanitizedProductDiscount = productDiscount.replace(/[^0-9.]/g, '');
-		const sanitizedProductTaxRate = productTaxRate.replace(/[^0-9.]/g, '');
+		//const sanitizedProductTaxRate = productTaxRate.replace(/[^0-9.]/g, '');
 
 		// Create a FormData object to handle file uploads
 		const formData = new FormData();
 		formData.append('productName', sanitizedProductName);
 		formData.append('productDescription', sanitizedProductDescription);
 		formData.append('productPrice', parseFloat(productPrice).toFixed(2));
-		formData.append('productQuantity', parseInt(sanitizedProductQuantity));
+		//formData.append('productQuantity', parseInt(sanitizedProductQuantity));
 		formData.append('productDiscount', parseFloat(sanitizedProductDiscount).toFixed(2));
-		formData.append('productTaxRate', parseFloat(sanitizedProductTaxRate).toFixed(2));
+		//formData.append('productTaxRate', parseFloat(sanitizedProductTaxRate).toFixed(2));
 		formData.append('mainCategoryId', mainCategories[0]._id);
 		formData.append('subCategoryId', subCategories[0]._id);
 		formData.append('discountType', discountType);
@@ -160,11 +160,16 @@ const ProductAdd = () => {
 			}
 
 			const result = await response.json();
-			Swal.fire(
-				'Success!',
-				'Product added successfully!',
-				'success'
-			);
+			Swal.fire({
+				title: 'Success!',
+				text: 'Product added successfully!',
+				icon: 'success'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location.reload();
+				}
+			});
+
 			//console.log(result);
 		} catch (error) {
 			console.error('Error:', error);
@@ -176,7 +181,7 @@ const ProductAdd = () => {
 		}
 	}
 	const addColor = () => {
-		setProductColors([...productColors, { name: '', value: '#ffffff' }]); // Default color value
+		setProductColors([...productColors, { name: '', value: '#ffffff', quantity: 0 }]);
 	};
 	const handleColorChange = (value, index) => {
 		const newColors = [...productColors];
@@ -193,6 +198,27 @@ const ProductAdd = () => {
 		setProductColors(productColors.filter((_, i) => i !== index));
 	};
 
+	const handleQuantityChange = (quantity, index) => {
+		const sanitizedQuantity = quantity.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+		if (sanitizedQuantity === "") {
+			const newColors = [...productColors];
+			newColors[index] = { ...newColors[index], quantity: '' };
+			setProductColors(newColors);
+		} else {
+			const parsedQuantity = parseInt(sanitizedQuantity, 10);
+			if (!isNaN(parsedQuantity) && parsedQuantity >= 0) {
+				const newColors = [...productColors];
+				newColors[index] = { ...newColors[index], quantity: parsedQuantity };
+				setProductColors(newColors);
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: 'Invalid Quantity',
+					text: 'Please enter a valid non-negative number for quantity.'
+				});
+			}
+		}
+	};
 
 	return (
 		<>
@@ -247,7 +273,7 @@ const ProductAdd = () => {
 									/>
 								</div>
 							</CCol>
-							<CCol xs="12">
+							{/* <CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productQuantity">Product Quantity</CFormLabel>
 									<CFormInput
@@ -257,15 +283,16 @@ const ProductAdd = () => {
 										onChange={(e) => setProductQuantity(e.target.value)}
 									/>
 								</div>
-							</CCol>
+							</CCol> */}
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productColor">Product Color</CFormLabel>
-									<div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
+									<div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
 										{productColors.map((color, index) => (
 											<div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginBottom: '10px' }}>
-												<input type="text" value={color.name} onChange={(e) => handleNameChange(e.target.value, index)} placeholder="Color Name" style={{ marginRight: '5px' }}/>
-												<input type="color" value={color.value} onChange={(e) => handleColorChange(e.target.value, index)} title="Choose your color"/>
+												<input type="text" value={color.name} onChange={(e) => handleNameChange(e.target.value, index)} placeholder="Color Name" style={{ marginRight: '5px' }} />
+												<input type="color" value={color.value} onChange={(e) => handleColorChange(e.target.value, index)} title="Choose your color" />
+												<input type="number" value={color.quantity} onChange={(e) => handleQuantityChange(e.target.value, index)} placeholder="Quantity" style={{ marginRight: '5px' }} />
 												<button type="button" onClick={() => removeColor(index)} style={{ marginLeft: '5px', height: '30px', width: '30px', color: 'white', borderRadius: '50px' }}>-</button>
 											</div>
 										))}
@@ -301,7 +328,7 @@ const ProductAdd = () => {
 								<div className="mb-3">
 									<CFormLabel htmlFor="productTrending">Tags</CFormLabel>
 									<div>
-										{['Best Seller', 'Trending', 'New', 'Hot-Sales', 'Pre-Order'].map((trend, index) => (
+										{['Best Seller', 'Trending', 'New', 'Hot-Sales'].map((trend, index) => (
 											<CFormCheck
 												key={index}
 												type="checkbox"
@@ -363,7 +390,7 @@ const ProductAdd = () => {
 									</div>
 								</div>
 							</CCol>
-							<CCol xs="12">
+							{/* 	<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productTaxRate">Tax Rate</CFormLabel>
 									<CFormInput
@@ -373,7 +400,7 @@ const ProductAdd = () => {
 										onChange={(e) => setProductTaxRate(e.target.value)}
 									/>
 								</div>
-							</CCol>
+							</CCol> */}
 							<CCol xs="12">
 								<div className="mb-3">
 									<CFormLabel htmlFor="productDescription">Product Description</CFormLabel>

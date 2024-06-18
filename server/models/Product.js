@@ -15,6 +15,10 @@ const ProductSchema = new mongoose.Schema({
 		ref: 'SubCategory',
 		required: true,
 	},
+	productDiscount: {
+		type: Number,
+		required: true,
+	},
 	discountType: {
 		type: String,
 		required: true,
@@ -24,10 +28,6 @@ const ProductSchema = new mongoose.Schema({
 		required: true,
 	},
 	productPrice: {
-		type: Number,
-		required: true,
-	},
-	productQuantity: {
 		type: Number,
 		required: true,
 	},
@@ -53,7 +53,8 @@ const ProductSchema = new mongoose.Schema({
 	},
 	productTaxRate: {
 		type: Number,
-		required: true,
+		required: false,
+		default: 5,
 	},
 	productImages: [{
 		type: String,

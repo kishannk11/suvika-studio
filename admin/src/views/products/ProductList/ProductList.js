@@ -42,7 +42,7 @@ const ProductList = () => {
 			if (result.isConfirmed) {
 				const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 				try {
-					const response = await fetch(`${API_URL}/api/products/${productId}`, {
+					const response = await fetch(`${API_URL}/api/products/delete/${productId}`, {
 						method: 'DELETE',
 						headers: {
 							'Authorization': `Bearer ${token}`,
@@ -91,10 +91,8 @@ const ProductList = () => {
 							<th>Main Category</th>
 							<th>Sub Category</th>
 							<th>Price</th>
-							<th>Stock</th>
 							<th>Discount</th>
-							<th>Discount Type</th>
-							<th>Tax Rate</th>
+							<th>Colors</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -109,14 +107,27 @@ const ProductList = () => {
 								<td>{product.mainCategoryId ? product.mainCategoryId.categoryName : 'N/A'}</td>
 								<td>{product.subCategoryId ? product.subCategoryId.categoryName : 'N/A'}</td>
 								<td>{product.productPrice}</td>
-								<td>{product.productQuantity}</td>
-								<td>{product.productDiscount}</td>
-								<td>{product.discountType}</td>
-								<td>{product.productTaxRate}%</td>
+								<td>{product.discountType === 'percentage' ? `${product.productDiscount}%` : `${product.productDiscount}₹`}</td>
 								<td>
-									<Link to={`/products/edit/${product._id}`} className="text-primary" style={{ cursor: 'pointer', marginRight: '10px' }}>
+									{(() => {
+										let colors = [];
+										try {
+											colors = JSON.parse(product.productColors);
+											if (typeof colors === 'string') {
+												colors = JSON.parse(colors);
+											}
+										} catch (error) {
+											console.error('Error parsing product colors:', error);
+										}
+										return colors.map((color, index) => (
+											<span key={index} style={{ display: 'inline-block', width: '20px', height: '20px', backgroundColor: color.value, borderRadius: '50%', marginRight: '5px' }}></span>
+										));
+									})()}
+								</td>
+								<td>
+									{/* <Link to={`/products/edit/${product._id}`} className="text-primary" style={{ cursor: 'pointer', marginRight: '10px' }}>
 										<MdEdit />
-									</Link>
+									</Link> */}
 									<a className="text-danger" onClick={() => deleteProduct(product._id)} style={{ cursor: 'pointer' }}>
 										<MdDelete />
 									</a>

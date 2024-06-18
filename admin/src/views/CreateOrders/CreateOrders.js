@@ -21,6 +21,7 @@ const CreateOrder = () => {
 
 	const handleSearchChange = async (event) => {
 		const query = event.target.value;
+		console.log(query);
 		if (query.length > 2) {
 			const response = await axios.get(`${API_URL}/api/products/search?query=${query}`, {
 				headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -231,9 +232,10 @@ const CreateOrder = () => {
 								<div>
 									<CLabel htmlFor="paymentMethod">Payment Method</CLabel>
 									<CFormSelect id="paymentMethod" name="paymentMethod">
+										<option value="upi">UPI</option>
+										<option value="cash">Cash</option>
 										<option value="creditCard">Credit Card</option>
-										<option value="paypal">PayPal</option>
-										<option value="applePay">Apple Pay</option>
+										<option value="debitCard">Debit Card</option>
 									</CFormSelect>
 								</div>
 							</CCol>

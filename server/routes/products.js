@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 
 router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 	try {
-		const { productName, productDescription, productPrice, productQuantity, productDiscount, productTaxRate, mainCategoryId, subCategoryId, discountType, productColors, productTrending, productMaterialCare, productWeight, additionalInfo, productPreOrder } = req.body;
+		const { productName, productDescription, productPrice, productDiscount, mainCategoryId, subCategoryId, discountType, productColors, productTrending, productMaterialCare, productWeight, additionalInfo, productPreOrder } = req.body;
 		let productImages = [];
 		if (req.files) {
 			productImages = req.files.map(file => file.path);
@@ -27,9 +27,7 @@ router.post('/add', auth, upload.array('productImages'), async (req, res) => {
 			productName,
 			productDescription,
 			productPrice,
-			productQuantity,
 			productDiscount,
-			productTaxRate,
 			productImages,
 			mainCategoryId,
 			subCategoryId,
@@ -72,7 +70,7 @@ router.get('/preorders', auth, async (req, res) => {
 	}
 });
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/get/:id', auth, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		if (!product) {
@@ -99,12 +97,18 @@ router.get('/list-guest', async (req, res) => {
 router.get('/search', auth, async (req, res) => {
 	try {
 		const query = req.query.query;
+		console.log(query);
 		if (!query || query.length < 2) {
 			return res.status(400).json({ msg: 'Query must be at least 2 characters long' });
 		}
 
 		const products = await Product.find({
 			productName: { $regex: query, $options: 'i' }
+		}).catch(err => {
+			if (err.kind === 'ObjectId') {
+				return res.status(400).json({ msg: 'Invalid query format' });
+			}
+			throw err;
 		});
 
 		res.json(products);
@@ -115,7 +119,7 @@ router.get('/search', auth, async (req, res) => {
 });
 
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/delete/:id', auth, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		if (!product) {
